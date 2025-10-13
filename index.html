@@ -41,20 +41,20 @@
         .status-badge[data-status="無法派車"] { background-color: #e5e7eb; color: #4b5563; } /* Rejected */
         
         @keyframes shake {
-          10%, 90% { transform: translate3d(-1px, 0, 0); }
-          20%, 80% { transform: translate3d(2px, 0, 0); }
-          30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-          40%, 60% { transform: translate3d(4px, 0, 0); }
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
         }
         .animate-shake {
-          animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
         }
         
         @keyframes pulse-badge {
-          50% { opacity: .6; }
+            50% { opacity: .6; }
         }
         .animate-pulse-badge {
-          animation: pulse-badge 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            animation: pulse-badge 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
 
         .tab-btn {
@@ -194,7 +194,7 @@
             <!-- Admin Tab -->
             <div id="tab-content-admin" class="tab-content hidden bg-white p-6 sm:p-8 rounded-b-2xl shadow-lg">
                 <div id="admin-view" class="hidden">
-                     <div class="flex flex-col sm:flex-row justify-between items-center mb-6 border-b pb-4 gap-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-center mb-6 border-b pb-4 gap-4">
                         <div class="flex items-center gap-2">
                             <h2 class="text-xl font-bold text-gray-800">所有派車申請</h2>
                             <button id="refresh-admin-list-btn" title="重新整理" class="p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -207,10 +207,10 @@
                              <input type="text" id="admin-search-input" placeholder="依申請單號查詢..." class="w-full sm:w-auto px-4 py-2 bg-white border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                         </div>
                         <button id="logout-btn" class="py-2 px-4 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">登出</button>
-                     </div>
-                     <div id="requests-list" class="space-y-4">
-                         <!-- Requests will be injected here by Firestore -->
-                     </div>
+                    </div>
+                    <div id="requests-list" class="space-y-4">
+                        <!-- Requests will be injected here by Firestore -->
+                    </div>
                 </div>
                  <div id="admin-login-prompt" class="text-center py-10">
                     <p class="text-gray-600">此為管理員專區，請先登入。</p>
@@ -220,13 +220,13 @@
 
             <!-- Stats Tab -->
             <div id="tab-content-stats" class="tab-content hidden bg-white p-6 sm:p-8 rounded-b-2xl shadow-lg">
-                 <div id="stats-view" class="hidden">
-                     <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <div id="stats-view" class="hidden">
+                    <div class="flex justify-between items-center mb-6 border-b pb-4">
                          <h2 class="text-xl font-bold text-gray-800">數據統計分析</h2>
                          <button id="export-excel-btn" class="py-2 px-4 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">匯出 Excel</button>
-                     </div>
+                    </div>
 
-                     <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 p-4 bg-gray-50 rounded-lg">
+                    <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 p-4 bg-gray-50 rounded-lg">
                          <div class="flex items-center gap-2">
                              <label for="stats-month-filter" class="text-sm font-medium text-gray-700">篩選月份:</label>
                              <input type="month" id="stats-month-filter" class="border-gray-300 rounded-md shadow-sm p-2">
@@ -237,17 +237,17 @@
                                  <p class="text-sm font-medium text-gray-500">總申請筆數</p>
                              </div>
                          </div>
-                     </div>
+                    </div>
 
-                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                          <div class="p-4 border rounded-lg lg:col-span-2">
                              <h3 class="text-center font-semibold mb-4 text-gray-700">各司機趟次統計</h3>
                              <canvas id="driver-chart"></canvas>
                          </div>
-                          <div class="p-4 border rounded-lg"><h3 class="text-center font-semibold mb-4 text-gray-700">申請狀態分佈</h3><canvas id="status-chart"></canvas></div>
-                          <div class="p-4 border rounded-lg"><h3 class="text-center font-semibold mb-4 text-gray-700">各院區申請量</h3><canvas id="branch-chart"></canvas></div>
-                     </div>
-                 </div>
+                         <div class="p-4 border rounded-lg"><h3 class="text-center font-semibold mb-4 text-gray-700">申請狀態分佈</h3><canvas id="status-chart"></canvas></div>
+                         <div class="p-4 border rounded-lg"><h3 class="text-center font-semibold mb-4 text-gray-700">各院區申請量</h3><canvas id="branch-chart"></canvas></div>
+                    </div>
+                </div>
                  <div id="stats-login-prompt" class="text-center py-10">
                     <p class="text-gray-600">此為管理員專區，請先登入查看統計數據。</p>
                     <button id="stats-login-prompt-btn" class="mt-4 py-2 px-6 border border-transparent shadow-sm text-base font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700">立即登入</button>
@@ -268,13 +268,14 @@
     <script type="module">
         // Import Firebase modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, onSnapshot, addDoc, doc, updateDoc, deleteDoc, serverTimestamp, setLogLevel, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, onSnapshot, addDoc, doc, updateDoc, serverTimestamp, setLogLevel, query, where, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- FIREBASE CONFIGURATION AND INITIALIZATION ---
         // Global variables provided by the environment (using provided config)
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const firebaseConfig = {
+            // NOTE: Using the user's hardcoded config for external deployment consistency.
             apiKey: "AIzaSyAs3v-BU5Hfh7HZitHdL5yI2FKZrI_Q4zI",
             authDomain: "cch2500-5bbb6.firebaseapp.com",
             projectId: "cch2500-5bbb6",
@@ -287,11 +288,18 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
         setLogLevel('debug');
+        
+        // Firestore Collection Path (Public Data)
+        const REQUESTS_COLLECTION = `/artifacts/${appId}/public/data/dispatch_requests`;
+
+        // Hardcoded Admin Credentials (For Demonstration/Testing ONLY)
+        const ADMIN_USERNAME = 'admin';
+        const ADMIN_PASSWORD = 'password';
 
         // --- AUTHENTICATION LOGIC ---
         async function authenticateUser() {
             try {
-                // Use the provided custom token for authentication if available, otherwise sign in anonymously
+                // Check if the custom token exists and is not null/empty
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
                     console.log("Authenticated with custom token.");
@@ -300,1176 +308,868 @@
                     console.log("Authenticated anonymously.");
                 }
             } catch (error) {
-                console.error("Firebase Authentication failed:", error);
+                // If custom token fails (e.g., project mismatch), try to sign in anonymously as fallback
+                console.error("Firebase Authentication failed (Custom Token Mismatch expected in external host):", error);
+                try {
+                    await signInAnonymously(auth);
+                    console.log("Falling back to anonymous authentication.");
+                } catch (anonError) {
+                    console.error("Anonymous authentication also failed:", anonError);
+                }
             }
         }
         
-        // --- MAIN APPLICATION LOGIC ---
-        window.addEventListener('load', async () => {
-            // Wait for authentication before proceeding
-            await authenticateUser();
+        // --- UTILITY FUNCTIONS ---
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            const results = regex.exec(window.location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
 
-            const state = {
-                isLoggedIn: false, // Tracks hardcoded 'admin' login for UI access
-                requests: [],
-                editingRequestId: null,
-                activeTab: 'apply',
-                db: db, // Firestore instance
-                auth: auth, // Auth instance
-                userId: auth.currentUser?.uid || crypto.randomUUID(), // Initialize userId
-                deepLinkedRequestId: null,
+        function formatTimestamp(timestamp) {
+            if (!timestamp) return 'N/A';
+            const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+            return date.toLocaleString('zh-TW', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+        }
+
+        // --- MODAL ELEMENTS & FUNCTIONS (COMPLETED) ---
+        const modal = document.getElementById('custom-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalContent = document.getElementById('modal-content');
+        const modalButtons = document.getElementById('modal-buttons');
+
+        function hideModal() { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+        
+        function showAlert(message, title = '通知') { 
+            modalTitle.textContent = title;
+            modalContent.innerHTML = `<p>${message}</p>`;
+            modalButtons.innerHTML = `<button id="modal-ok-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none">確定</button>`;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            const okBtn = document.getElementById('modal-ok-btn');
+            okBtn.onclick = hideModal;
+            okBtn.focus();
+        }
+        
+        function showSuccessWithLink(message, link) {
+            modalTitle.textContent = '申請成功';
+            modalContent.innerHTML = `
+                <p>${message}</p>
+                <div class="mt-4">
+                    <label for="approval-link" class="block text-sm font-medium text-gray-700 text-left">專屬簽核連結</label>
+                    <input type="text" id="approval-link" readonly class="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm" value="${link}">
+                </div>
+            `;
+            modalButtons.innerHTML = `
+                <button id="modal-copy-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none">複製連結</button>
+                <button id="modal-close-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none">關閉</button>
+            `;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            const copyBtn = document.getElementById('modal-copy-btn');
+            const closeBtn = document.getElementById('modal-close-btn');
+            const linkInput = document.getElementById('approval-link');
+
+            copyBtn.onclick = () => {
+                linkInput.select();
+                document.execCommand('copy');
+                showAlert('連結已複製到剪貼簿！', '複製成功');
+                linkInput.blur(); // Remove focus after copying
+            };
+            closeBtn.onclick = hideModal;
+        }
+
+        function showConfirm(message, callback, title = '確認操作') {
+            modalTitle.textContent = title;
+            modalContent.innerHTML = `<p>${message}</p>`;
+            modalButtons.innerHTML = `
+                <button id="modal-cancel-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none">取消</button>
+                <button id="modal-confirm-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none">確定</button>
+            `;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            const confirmBtn = document.getElementById('modal-confirm-btn');
+            const cancelBtn = document.getElementById('modal-cancel-btn');
+            confirmBtn.onclick = () => { hideModal(); if (callback) callback(true); };
+            cancelBtn.onclick = () => { hideModal(); if (callback) callback(false); };
+            confirmBtn.focus();
+        }
+        
+        // *** COMPLETED MISSING CODE FOR promptLogin ***
+        function promptLogin() {
+            modalTitle.textContent = '管理員登入';
+            modalContent.innerHTML = `
+                <div class="space-y-4">
+                    <div>
+                        <label for="modal-username" class="block text-sm font-medium text-gray-700 text-left">帳號</label>
+                        <input type="text" id="modal-username" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label for="modal-password" class="block text-sm font-medium text-gray-700 text-left">密碼</label>
+                        <input type="password" id="modal-password" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                </div>
+            `;
+            modalButtons.innerHTML = `
+                <button id="modal-cancel-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none">取消</button>
+                <button id="modal-login-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none">登入</button>
+            `;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            const loginBtn = document.getElementById('modal-login-btn');
+            const cancelBtn = document.getElementById('modal-cancel-btn');
+            const usernameInput = document.getElementById('modal-username');
+            const passwordInput = document.getElementById('modal-password');
+
+            const handleLogin = () => {
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value.trim();
+                if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+                    hideModal();
+                    state.isLoggedIn = true;
+                    updateAdminUI();
+                    showAlert('管理員登入成功！');
+                    // Force the Admin tab to be active after login
+                    setActiveTab('admin'); 
+                } else {
+                    showAlert('帳號或密碼錯誤。', '登入失敗');
+                    usernameInput.classList.add('animate-shake');
+                    setTimeout(() => usernameInput.classList.remove('animate-shake'), 500);
+                }
             };
 
-            let statusChartInstance, branchChartInstance, driverChartInstance;
+            loginBtn.onclick = handleLogin;
+            cancelBtn.onclick = hideModal;
+            passwordInput.addEventListener('keyup', (e) => { if (e.key === 'Enter') handleLogin(); });
+            usernameInput.focus();
+        }
 
-            // --- CACHE ELEMENTS ---
-            const form = document.getElementById('dispatchForm');
-            const logoutBtn = document.getElementById('logout-btn');
-            const submitBtn = document.getElementById('submit-btn');
-            const clearBtn = document.getElementById('clear-btn');
-            const requestIdInput = document.getElementById('request-id');
-            const adminSection = document.getElementById('admin-section');
-            const adminFields = ['dispatch_status', 'dispatch_method', 'driver_name', 'driver_phone', 'admin_remarks'].map(id => document.getElementById(id));
+
+        // --- CACHE ELEMENTS ---
+        const form = document.getElementById('dispatchForm');
+        const logoutBtn = document.getElementById('logout-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const requestIdInput = document.getElementById('request-id');
+        const adminSection = document.getElementById('admin-section');
+        const displayRequestId = document.getElementById('display_request_id');
+        const dispatchStatusSelect = document.getElementById('dispatch_status');
+        const approvingManagerInput = document.getElementById('approving_manager');
+        const adminFields = ['dispatch_method', 'driver_name', 'driver_phone', 'admin_remarks'].map(id => document.getElementById(id));
+        
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        const adminView = document.getElementById('admin-view');
+        const adminLoginPrompt = document.getElementById('admin-login-prompt');
+        const adminLoginPromptBtn = document.getElementById('admin-login-prompt-btn');
+        const requestsList = document.getElementById('requests-list');
+        const pendingCountBadge = document.getElementById('pending-count');
+        
+        const searchInput = document.getElementById('search-input');
+        const searchBtn = document.getElementById('search-btn');
+        const searchResults = document.getElementById('search-results');
+        const adminSearchInput = document.getElementById('admin-search-input');
+        const refreshAdminListBtn = document.getElementById('refresh-admin-list-btn');
+
+        const statsView = document.getElementById('stats-view');
+        const statsLoginPrompt = document.getElementById('stats-login-prompt');
+        const managerActionBtns = document.getElementById('manager-action-btns');
+        const applicantActionBtns = document.getElementById('applicant-action-btns');
+
+        // --- STATE ---
+        const state = {
+            isAuthReady: false,
+            isLoggedIn: false, // Tracks hardcoded 'admin' login for UI access
+            requests: [], // All requests from Firestore
+            editingRequestId: null,
+            activeTab: 'apply',
+            db: db, // Firestore instance
+            auth: auth, // Auth instance
+            userId: null, 
+            deepLinkedRequestId: getUrlParameter('requestId'), // Get ID from URL
+        };
+
+        let statusChartInstance, branchChartInstance, driverChartInstance;
+        
+        // --- UI & TAB MANAGEMENT ---
+        function setActiveTab(tabName) {
+            state.activeTab = tabName;
+            tabButtons.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tab === tabName);
+            });
+            tabContents.forEach(content => {
+                content.classList.toggle('hidden', content.id !== `tab-content-${tabName}`);
+            });
             
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
-            
-            const adminView = document.getElementById('admin-view');
-            const adminLoginPrompt = document.getElementById('admin-login-prompt');
-            const adminLoginPromptBtn = document.getElementById('admin-login-prompt-btn');
-            const requestsList = document.getElementById('requests-list');
-            const pendingCountBadge = document.getElementById('pending-count');
-            
-            const searchInput = document.getElementById('search-input');
-            const searchBtn = document.getElementById('search-btn');
-            const searchResults = document.getElementById('search-results');
-            const adminSearchInput = document.getElementById('admin-search-input');
-            const refreshAdminListBtn = document.getElementById('refresh-admin-list-btn');
-
-            const statsTabBtn = document.querySelector('button[data-tab="stats"]');
-            const statsView = document.getElementById('stats-view');
-            const statsLoginPrompt = document.getElementById('stats-login-prompt');
-            const statsLoginPromptBtn = document.getElementById('stats-login-prompt-btn');
-            const exportExcelBtn = document.getElementById('export-excel-btn');
-            const statsMonthFilter = document.getElementById('stats-month-filter');
-            const statsTotalRequests = document.getElementById('stats-total-requests');
-            const managerActionBtns = document.getElementById('manager-action-btns');
-            const applicantActionBtns = document.getElementById('applicant-action-btns');
-
-            // --- MODAL ELEMENTS & FUNCTIONS ---
-            const modal = document.getElementById('custom-modal');
-            const modalTitle = document.getElementById('modal-title');
-            const modalContent = document.getElementById('modal-content');
-            const modalButtons = document.getElementById('modal-buttons');
-
-            function hideModal() { modal.classList.add('hidden'); modal.classList.remove('flex'); }
-            function showAlert(message, title = '通知') { 
-                modalTitle.textContent = title;
-                modalContent.innerHTML = `<p>${message}</p>`;
-                modalButtons.innerHTML = `<button id="modal-ok-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none">確定</button>`;
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-                const okBtn = document.getElementById('modal-ok-btn');
-                okBtn.onclick = hideModal;
-                okBtn.focus();
+            // Special logic for admin/stats tabs
+            if (tabName === 'admin' || tabName === 'stats') {
+                updateAdminUI();
             }
-            function showSuccessWithLink(message, link) {
-                modalTitle.textContent = '申請成功';
-                modalContent.innerHTML = `
-                    <p>${message}</p>
-                    <div class="mt-4">
-                        <label for="approval-link" class="block text-sm font-medium text-gray-700 text-left">專屬簽核連結</label>
-                        <input type="text" id="approval-link" readonly class="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm" value="${link}">
-                    </div>
-                `;
-                modalButtons.innerHTML = `
-                    <button id="modal-copy-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none">複製連結</button>
-                    <button id="modal-close-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none">關閉</button>
-                `;
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-
-                const copyBtn = document.getElementById('modal-copy-btn');
-                const closeBtn = document.getElementById('modal-close-btn');
-                const linkInput = document.getElementById('approval-link');
-
-                copyBtn.onclick = () => {
-                    linkInput.select();
-                    document.execCommand('copy');
-                    copyBtn.textContent = '已複製！';
-                    setTimeout(() => { copyBtn.textContent = '複製連結'; }, 2000);
-                };
-                closeBtn.onclick = hideModal;
+            if (tabName === 'stats' && state.isLoggedIn) {
+                renderStats();
             }
-
-            function showConfirm(message, callback, title = '確認操作') {
-                modalTitle.textContent = title;
-                modalContent.innerHTML = `<p>${message}</p>`;
-                modalButtons.innerHTML = `
-                    <button id="modal-cancel-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none">取消</button>
-                    <button id="modal-confirm-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none">確定</button>
-                `;
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-                const confirmBtn = document.getElementById('modal-confirm-btn');
-                const cancelBtn = document.getElementById('modal-cancel-btn');
-                confirmBtn.onclick = () => { hideModal(); if (callback) callback(true); };
-                cancelBtn.onclick = () => { hideModal(); if (callback) callback(false); };
-                confirmBtn.focus();
+            if (tabName === 'search') {
+                searchResults.innerHTML = '<p class="text-center text-gray-500">請輸入姓名或單號以查詢您的申請記錄。</p>';
             }
-            function promptLogin() {
-                modalTitle.textContent = '管理員登入';
-                modalContent.innerHTML = `<div class="space-y-4"><div><label for="modal-username" class="block text-sm font-medium text-gray-700 text-left">帳號</label><input type="text" id="modal-username" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div><label for="modal-password" class="block text-sm font-medium text-gray-700 text-left">密碼</label><input type="password" id="modal-password" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><p id="modal-error" class="text-sm text-red-600 h-4"></p></div>`;
-                modalButtons.innerHTML = `<button id="modal-cancel-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none">取消</button><button id="modal-login-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none">登入</button>`;
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-                const loginBtn = document.getElementById('modal-login-btn'), cancelBtn = document.getElementById('modal-cancel-btn'), usernameInput = document.getElementById('modal-username'), passwordInput = document.getElementById('modal-password'), errorEl = document.getElementById('modal-error');
-                usernameInput.focus();
-                const handleLogin = () => {
-                    // Hardcoded admin credential for demo purposes
-                    if (usernameInput.value === 'admin' && passwordInput.value === 'cch2500') {
-                        hideModal(); state.isLoggedIn = true; showAlert('登入成功！'); updateUI(); setActiveTab('admin');
-                    } else {
-                        errorEl.textContent = '帳號或密碼錯誤！'; const modalBox = modal.querySelector('div'); modalBox.classList.add('animate-shake'); setTimeout(() => { modalBox.classList.remove('animate-shake'); }, 500);
-                    }
-                };
-                loginBtn.onclick = handleLogin;
-                passwordInput.onkeydown = (e) => { if (e.key === 'Enter') handleLogin(); };
-                usernameInput.onkeydown = (e) => { if (e.key === 'Enter') passwordInput.focus(); };
-                cancelBtn.onclick = hideModal;
+        }
+        
+        function updateAdminUI() {
+            // Admin Tab UI
+            if (state.activeTab === 'admin') {
+                adminView.classList.toggle('hidden', !state.isLoggedIn);
+                adminLoginPrompt.classList.toggle('hidden', state.isLoggedIn);
             }
-
-            function promptManagerAction(callback) {
-                modalTitle.textContent = '主管簽核';
-                modalContent.innerHTML = `
-                    <p class="mb-4">請輸入您的姓名並提供備註 (退回必填)。</p>
-                    <div class="space-y-4">
-                        <div>
-                            <label for="modal-manager-name" class="block text-sm font-medium text-gray-700 text-left">主管姓名</label>
-                            <input type="text" id="modal-manager-name" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                        <div>
-                            <label for="modal-manager-remarks" class="block text-sm font-medium text-gray-700 text-left">備註</label>
-                            <textarea id="modal-manager-remarks" rows="3" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="若退回申請，請說明原因..."></textarea>
-                        </div>
-                        <p id="modal-error" class="text-sm text-red-600 h-4 mt-1"></p>
-                    </div>`;
-                modalButtons.innerHTML = `
-                    <button id="modal-cancel-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none">取消</button>
-                    <button id="modal-reject-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-yellow-600 text-base font-medium text-white hover:bg-yellow-700 focus:outline-none">退回申請</button>
-                    <button id="modal-approve-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none">通過簽核</button>
-                `;
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-                
-                const managerNameInput = document.getElementById('modal-manager-name');
-                const managerRemarksInput = document.getElementById('modal-manager-remarks');
-                const errorEl = document.getElementById('modal-error');
-
-                document.getElementById('modal-cancel-btn').onclick = hideModal;
-                document.getElementById('modal-approve-btn').onclick = () => {
-                    const managerName = managerNameInput.value.trim();
-                    if (!managerName) {
-                        errorEl.textContent = '請輸入主管姓名！';
-                        return;
-                    }
-                    hideModal(); 
-                    callback('approve', managerName, managerRemarksInput.value.trim());
-                };
-                document.getElementById('modal-reject-btn').onclick = () => {
-                    const managerName = managerNameInput.value.trim();
-                    const remarks = managerRemarksInput.value.trim();
-                    if (!managerName || !remarks) {
-                        errorEl.textContent = '退回需輸入主管姓名及備註！';
-                        return;
-                    }
-                    hideModal(); 
-                    callback('reject', managerName, remarks);
-                };
+            // Stats Tab UI
+            if (state.activeTab === 'stats') {
+                statsView.classList.toggle('hidden', !state.isLoggedIn);
+                statsLoginPrompt.classList.toggle('hidden', state.isLoggedIn);
             }
-
-
-            // --- DATA UTILITIES ---
-            function getRequestsCollectionRef() {
-                // Public data path: /artifacts/{appId}/public/data/requests
-                return collection(state.db, "artifacts", appId, "public", "data", "requests");
+            // If logged in, the tab is visible, otherwise it prompts login
+            if (state.isLoggedIn && state.requests.length > 0) {
+                 const pendingCount = state.requests.filter(r => r.status === '待申請單位主管簽核' || r.status === '待管理單位處理').length;
+                 pendingCountBadge.textContent = pendingCount;
+                 pendingCountBadge.classList.toggle('hidden', pendingCount === 0);
+                 pendingCountBadge.classList.add('animate-pulse-badge');
+            } else {
+                 pendingCountBadge.classList.add('hidden');
+                 pendingCountBadge.classList.remove('animate-pulse-badge');
             }
+        }
 
-            function getStatusBadge(status) {
-                const statusMap = {
-                    '待申請單位主管簽核': 'status-manager-approval',
-                    '主管退回': 'status-manager-rejected',
-                    '待管理單位處理': 'status-pending',
-                    '已派車': 'status-dispatched',
-                    '案件取消': 'status-cancelled',
-                    '無法派車': 'status-rejected',
-                };
-                const statusClass = statusMap[status] || 'status-rejected';
-                return `<span class="status-badge ${statusClass}" data-status="${status}">${status}</span>`;
-            }
-            
-            function formatTime(timestamp) {
-                if (timestamp && timestamp.toDate) {
-                    return timestamp.toDate().toLocaleString('zh-TW', { hour12: false });
-                }
-                if (typeof timestamp === 'string') {
-                    const date = new Date(timestamp);
-                    if (!isNaN(date)) {
-                        return date.toLocaleString('zh-TW', { hour12: false });
-                    }
-                }
-                return 'N/A';
-            }
-
-            // --- UI MANAGEMENT ---
-            function setActiveTab(tabName) {
-                state.activeTab = tabName;
-                tabButtons.forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.dataset.tab === tabName) {
-                        btn.classList.add('active');
-                    }
-                });
-                tabContents.forEach(content => {
-                    content.classList.add('hidden');
-                    if (content.id === `tab-content-${tabName}`) {
-                        content.classList.remove('hidden');
-                    }
-                });
-
-                if (tabName === 'stats') {
-                    if (state.isLoggedIn) {
-                         // Default to current month
-                        if (!statsMonthFilter.value) {
-                             const now = new Date();
-                             statsMonthFilter.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-                        }
-                        updateStats();
-                    }
-                }
-
-                if (tabName === 'admin' && !state.isLoggedIn) {
-                    // Ensure login prompt is shown if not logged in
-                    adminView.classList.add('hidden');
-                    adminLoginPrompt.classList.remove('hidden');
-                } else if (tabName === 'admin' && state.isLoggedIn) {
-                    adminView.classList.remove('hidden');
-                    adminLoginPrompt.classList.add('hidden');
-                }
-            }
-
-            function updateUI() {
-                if (state.isLoggedIn) {
-                    logoutBtn.classList.remove('hidden');
-                    statsTabBtn.classList.remove('hidden');
-                    adminView.classList.remove('hidden');
-                    adminLoginPrompt.classList.add('hidden');
-                    statsView.classList.remove('hidden');
-                    statsLoginPrompt.classList.add('hidden');
-                } else {
-                    logoutBtn.classList.add('hidden');
-                    // statsTabBtn.classList.add('hidden'); // Keep stats visible for login prompt
-                    adminView.classList.add('hidden');
-                    adminLoginPrompt.classList.remove('hidden');
-                    statsView.classList.add('hidden');
-                    statsLoginPrompt.classList.remove('hidden');
-                }
-            }
-            
-            function clearForm(resetAdmin = true) {
-                form.reset();
-                state.editingRequestId = null;
-                requestIdInput.value = '';
-                document.getElementById('display_request_id').value = '';
-                submitBtn.textContent = '提交新申請';
+        function toggleFormMode(mode) {
+            // mode: 'apply', 'view', 'manager', 'admin'
+            if (mode === 'apply') {
+                adminSection.classList.add('hidden');
                 managerActionBtns.classList.add('hidden');
                 applicantActionBtns.classList.remove('hidden');
-                
-                if (resetAdmin) {
-                    adminSection.classList.add('hidden');
-                    adminFields.forEach(el => el.classList.add('disabled-input'));
-                }
-            }
-
-            function loadRequestForApproval(request) {
-                clearForm(false); // Do not hide admin section initially as we'll set it up
-
-                state.editingRequestId = request.id;
-                requestIdInput.value = request.id;
-                document.getElementById('display_request_id').value = request.id;
-                submitBtn.textContent = '更新申請 (管理員)';
-                
-                // Load Applicant fields
-                document.getElementById('reason').value = request.reason || '';
-                document.getElementById('destination').value = request.destination || '';
-                document.getElementById('passengers').value = request.passengers || '';
-                document.getElementById('start_time').value = request.start_time ? request.start_time.substring(0, 16) : '';
-                document.getElementById('end_time').value = request.end_time ? request.end_time.substring(0, 16) : '';
-                document.getElementById('applicant_unit').value = request.applicant_unit || '';
-                document.getElementById('cost_code').value = request.cost_code || '';
-                document.getElementById('extension').value = request.extension || '';
-                document.getElementById('contact_group').value = request.contact_group || '';
-                document.getElementById('applicant_name').value = request.applicant_name || '';
-                document.getElementById('remarks').value = request.remarks || '';
-
-                // Handle Checkbox/Radio
-                document.querySelectorAll('input[name="branch"]').forEach(el => el.checked = request.branch.includes(el.value));
-                document.querySelectorAll('input[name="vehicle_type"]').forEach(el => el.checked = (request.vehicle_type === el.value));
-
-                // Load Admin/Manager fields
-                document.getElementById('dispatch_status').value = request.status || '待申請單位主管簽核';
-                document.getElementById('approving_manager').value = request.approving_manager || '';
-                document.getElementById('dispatch_method').value = request.dispatch_method || '';
-                document.getElementById('driver_name').value = request.driver_name || '';
-                document.getElementById('driver_phone').value = request.driver_phone || '';
-                document.getElementById('admin_remarks').value = request.admin_remarks || '';
-
-                // Disable all applicant fields and enable admin fields
-                const applicantFields = form.querySelectorAll('input, select, textarea');
-                applicantFields.forEach(el => {
-                    el.classList.add('disabled-input');
-                    el.readOnly = true;
-                    el.disabled = true; // Use disabled for radios/checkboxes/selects
+                submitBtn.textContent = '提交新申請';
+                // Enable all standard input fields
+                document.querySelectorAll('#dispatchForm input, #dispatchForm select, #dispatchForm textarea').forEach(el => {
+                    if (el.id !== 'request-id' && el.id !== 'display_request_id') {
+                        el.disabled = false;
+                        el.classList.remove('disabled-input');
+                    }
                 });
-
-                adminSection.classList.remove('hidden');
+            } else if (mode === 'view' || mode === 'manager' || mode === 'admin') {
+                // Disable standard fields for viewing/approval
+                document.querySelectorAll('#dispatchForm input, #dispatchForm select, #dispatchForm textarea').forEach(el => {
+                    if (el.id !== 'request-id' && el.id !== 'display_request_id') {
+                        el.disabled = true;
+                        el.classList.add('disabled-input');
+                    }
+                });
+                
+                // Show relevant action buttons
                 applicantActionBtns.classList.add('hidden');
-                managerActionBtns.classList.remove('hidden');
+                adminSection.classList.toggle('hidden', mode !== 'admin');
+                managerActionBtns.classList.toggle('hidden', mode !== 'manager' && mode !== 'admin');
 
-                // Manager specific buttons logic
-                const status = request.status;
-                const managerRejectBtn = document.getElementById('manager-reject-btn');
-                const managerApproveBtn = document.getElementById('manager-approve-btn');
-                const managerCancelBtn = document.getElementById('manager-cancel-btn');
-
-                if (status === '待申請單位主管簽核' || status === '主管退回') {
-                    managerRejectBtn.classList.remove('hidden');
-                    managerApproveBtn.classList.remove('hidden');
-                    managerCancelBtn.classList.remove('hidden');
-                } else if (status === '待管理單位處理') {
-                    managerRejectBtn.classList.add('hidden');
-                    managerApproveBtn.classList.add('hidden');
-                    managerCancelBtn.classList.remove('hidden');
-                } else {
-                    // Already processed, hide all manager action buttons (read-only view)
+                // Enable admin/manager-specific fields if needed
+                if (mode === 'manager') {
+                     // Manager can only approve/reject, no input fields enabled
+                     adminSection.classList.add('hidden');
+                } else if (mode === 'admin') {
+                    adminSection.classList.remove('hidden');
+                    dispatchStatusSelect.disabled = false;
+                    dispatchStatusSelect.classList.remove('disabled-input');
+                    adminFields.forEach(el => {
+                         el.disabled = false;
+                         el.classList.remove('disabled-input');
+                    });
+                    submitBtn.textContent = '更新派車狀態'; // Change button text for admin mode
+                    applicantActionBtns.classList.remove('hidden');
+                } else { // view mode
+                    adminSection.classList.add('hidden');
                     managerActionBtns.classList.add('hidden');
                 }
-                
-                // Scroll to top
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // --- DATA BINDING & HANDLERS ---
+        
+        function populateForm(request) {
+            clearForm();
+            if (!request) {
+                showAlert('查無此申請單或單號無效。', '錯誤');
+                toggleFormMode('apply');
+                return;
+            }
+            
+            requestIdInput.value = request.id;
+            displayRequestId.value = request.id;
+            state.editingRequestId = request.id;
+
+            // Basic Fields
+            document.getElementById('reason').value = request.reason || '';
+            document.getElementById('destination').value = request.destination || '';
+            document.getElementById('passengers').value = request.passengers || '';
+            document.getElementById('applicant_unit').value = request.applicant_unit || '';
+            document.getElementById('cost_code').value = request.cost_code || '';
+            document.getElementById('extension').value = request.extension || '';
+            document.getElementById('contact_group').value = request.contact_group || '';
+            document.getElementById('applicant_name').value = request.applicant_name || '';
+            document.getElementById('remarks').value = request.remarks || '';
+
+            // Datetime Fields (format for datetime-local input)
+            const formatForInput = (timestamp) => {
+                 if (!timestamp) return '';
+                 const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+                 const Y = date.getFullYear();
+                 const M = String(date.getMonth() + 1).padStart(2, '0');
+                 const D = String(date.getDate()).padStart(2, '0');
+                 const h = String(date.getHours()).padStart(2, '0');
+                 const m = String(date.getMinutes()).padStart(2, '0');
+                 return `${Y}-${M}-${D}T${h}:${m}`;
+            }
+            document.getElementById('start_time').value = formatForInput(request.start_time);
+            document.getElementById('end_time').value = formatForInput(request.end_time);
+
+            // Checkbox/Radio Fields
+            document.querySelectorAll('input[name="branch"]').forEach(el => {
+                el.checked = request.branch && request.branch.includes(el.value);
+            });
+            document.querySelectorAll('input[name="vehicle_type"]').forEach(el => {
+                el.checked = el.value === request.vehicle_type;
+            });
+            
+            // Admin/Dispatch Fields
+            dispatchStatusSelect.value = request.status || '待申請單位主管簽核';
+            approvingManagerInput.value = request.approving_manager || 'N/A';
+            document.getElementById('dispatch_method').value = request.dispatch_method || '';
+            document.getElementById('driver_name').value = request.driver_name || '';
+            document.getElementById('driver_phone').value = request.driver_phone || '';
+            document.getElementById('admin_remarks').value = request.admin_remarks || '';
+            
+            // Determine the form mode
+            if (state.activeTab === 'admin' && state.isLoggedIn) {
+                toggleFormMode('admin');
+            } else if (request.status === '待申請單位主管簽核' && state.deepLinkedRequestId === request.id) {
+                // If it's a deep link and pending approval, enter manager mode
+                toggleFormMode('manager');
+            } else {
+                toggleFormMode('view'); // Otherwise, it's just read-only view
             }
 
-            function editRequestInForm(request) {
-                clearForm(false); // Keep admin section visible to manager
-                state.editingRequestId = request.id;
-                requestIdInput.value = request.id;
-                document.getElementById('display_request_id').value = request.id;
-                submitBtn.textContent = '更新申請 (管理員)';
-                
-                // Load Applicant fields
-                document.getElementById('reason').value = request.reason || '';
-                document.getElementById('destination').value = request.destination || '';
-                document.getElementById('passengers').value = request.passengers || '';
-                document.getElementById('start_time').value = request.start_time ? request.start_time.substring(0, 16) : '';
-                document.getElementById('end_time').value = request.end_time ? request.end_time.substring(0, 16) : '';
-                document.getElementById('applicant_unit').value = request.applicant_unit || '';
-                document.getElementById('cost_code').value = request.cost_code || '';
-                document.getElementById('extension').value = request.extension || '';
-                document.getElementById('contact_group').value = request.contact_group || '';
-                document.getElementById('applicant_name').value = request.applicant_name || '';
-                document.getElementById('remarks').value = request.remarks || '';
+            // Scroll to the top of the form
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-                // Handle Checkbox/Radio
-                document.querySelectorAll('input[name="branch"]').forEach(el => el.checked = request.branch.includes(el.value));
-                document.querySelectorAll('input[name="vehicle_type"]').forEach(el => el.checked = (request.vehicle_type === el.value));
+        function clearForm() {
+            form.reset();
+            requestIdInput.value = '';
+            displayRequestId.value = '';
+            approvingManagerInput.value = '';
+            state.editingRequestId = null;
+            toggleFormMode('apply');
+        }
 
-                // Load Admin/Manager fields
-                document.getElementById('dispatch_status').value = request.status || '待申請單位主管簽核';
-                document.getElementById('approving_manager').value = request.approving_manager || '';
-                document.getElementById('dispatch_method').value = request.dispatch_method || '';
-                document.getElementById('driver_name').value = request.driver_name || '';
-                document.getElementById('driver_phone').value = request.driver_phone || '';
-                document.getElementById('admin_remarks').value = request.admin_remarks || '';
+        async function submitForm(e) {
+            e.preventDefault();
 
-                // Enable all fields for Admin
-                const allFields = form.querySelectorAll('input, select, textarea');
-                allFields.forEach(el => {
-                    el.classList.remove('disabled-input');
-                    el.readOnly = false;
-                    el.disabled = false;
-                });
-                
-                adminSection.classList.remove('hidden');
-                managerActionBtns.classList.add('hidden');
-                applicantActionBtns.classList.remove('hidden');
-
-                setActiveTab('apply');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Validation (same as your original)
+            const requiredFields = ['reason', 'destination', 'passengers', 'start_time', 'end_time', 'applicant_unit', 'extension', 'applicant_name'];
+            let isValid = true;
+            requiredFields.forEach(id => {
+                const input = document.getElementById(id);
+                if (!input.value) {
+                    input.classList.add('border-red-500', 'animate-shake');
+                    setTimeout(() => input.classList.remove('border-red-500', 'animate-shake'), 500);
+                    isValid = false;
+                }
+            });
+            
+            const selectedBranches = Array.from(document.querySelectorAll('input[name="branch"]:checked')).map(el => el.value);
+            if (selectedBranches.length === 0) {
+                document.getElementById('branch-options').classList.add('border', 'border-red-500', 'rounded-md', 'p-2', 'animate-shake');
+                setTimeout(() => document.getElementById('branch-options').classList.remove('border', 'border-red-500', 'rounded-md', 'p-2', 'animate-shake'), 500);
+                isValid = false;
             }
 
-            // --- DATA HANDLERS ---
-            function validateForm() {
-                const requiredFields = ['reason', 'destination', 'passengers', 'start_time', 'end_time', 'applicant_unit', 'extension', 'applicant_name'];
-                let isValid = true;
-                
-                const branches = document.querySelectorAll('input[name="branch"]:checked').length;
-                if (branches === 0) {
-                    showAlert('請選擇至少一個院區！');
-                    return false;
-                }
-
-                const vehicleType = document.querySelector('input[name="vehicle_type"]:checked');
-                if (!vehicleType) {
-                    showAlert('請選擇車輛種類！');
-                    return false;
-                }
-                
-                for (const id of requiredFields) {
-                    const input = document.getElementById(id);
-                    if (!input.value.trim()) {
-                        showAlert(`「${document.querySelector(`label[for="${id}"]`)?.textContent.split(' ')[0]}」為必填欄位！`);
-                        input.focus();
-                        return false;
-                    }
-                }
-                return isValid;
+            const selectedVehicleType = document.querySelector('input[name="vehicle_type"]:checked');
+            if (!selectedVehicleType) {
+                 // No easy way to shake radio buttons, just show alert
+                 isValid = false;
+                 showAlert('請選擇車輛種類。', '欄位未填寫');
+            }
+            
+            if (!isValid) {
+                showAlert('請填寫所有必填欄位。', '欄位未填寫');
+                return;
             }
 
-            async function submitRequest(e) {
-                e.preventDefault();
-                
-                if (state.editingRequestId && state.isLoggedIn) {
-                    // Admin Update
-                    await updateRequestInDatabase(true);
-                    return;
-                }
-                
-                if (state.editingRequestId && !state.isLoggedIn) {
-                    // Applicant modifying/resubmitting a rejected request
-                    await updateRequestInDatabase(false);
-                    return;
-                }
+            // Collect data
+            const formData = {
+                reason: document.getElementById('reason').value,
+                vehicle_type: selectedVehicleType.value,
+                destination: document.getElementById('destination').value,
+                passengers: parseInt(document.getElementById('passengers').value, 10),
+                start_time: new Date(document.getElementById('start_time').value),
+                end_time: new Date(document.getElementById('end_time').value),
+                applicant_unit: document.getElementById('applicant_unit').value,
+                cost_code: document.getElementById('cost_code').value,
+                extension: document.getElementById('extension').value,
+                contact_group: document.getElementById('contact_group').value,
+                applicant_name: document.getElementById('applicant_name').value,
+                remarks: document.getElementById('remarks').value,
+                branch: selectedBranches,
+                applicant_id: state.userId,
+            };
 
-                // New Request (Applicant)
-                if (!validateForm()) return;
+            const isUpdate = state.editingRequestId !== null;
+
+            if (isUpdate && state.isLoggedIn) {
+                // Admin Update Mode
+                 const updateData = {
+                    ...formData,
+                    dispatch_status: dispatchStatusSelect.value, // Note: your schema uses 'status' not 'dispatch_status' for the main status field
+                    status: dispatchStatusSelect.value, // Using 'status' for consistency with filtering
+                    dispatch_method: document.getElementById('dispatch_method').value,
+                    driver_name: document.getElementById('driver_name').value,
+                    driver_phone: document.getElementById('driver_phone').value,
+                    admin_remarks: document.getElementById('admin_remarks').value,
+                    updated_at: serverTimestamp(),
+                 };
+                await updateRequest(state.editingRequestId, updateData);
+                showAlert('申請單 (單號: ' + state.editingRequestId + ') 狀態已更新！', '更新成功');
+                clearForm();
+                setActiveTab('admin');
                 
-                submitBtn.disabled = true;
+            } else if (isUpdate) {
+                // Only applicants can update if it's not admin mode
+                 showAlert('您無法修改這張已提交的申請單。', '權限不足');
+                 return;
 
-                const branchValues = Array.from(document.querySelectorAll('input[name="branch"]:checked')).map(el => el.value);
-                const vehicleType = document.querySelector('input[name="vehicle_type"]:checked')?.value;
-
-                const newRequest = {
-                    applicant_user_id: state.userId,
-                    applicant_name: document.getElementById('applicant_name').value.trim(),
-                    branch: branchValues,
-                    reason: document.getElementById('reason').value.trim(),
-                    vehicle_type: vehicleType,
-                    destination: document.getElementById('destination').value.trim(),
-                    passengers: parseInt(document.getElementById('passengers').value, 10),
-                    start_time: document.getElementById('start_time').value,
-                    end_time: document.getElementById('end_time').value,
-                    applicant_unit: document.getElementById('applicant_unit').value.trim(),
-                    cost_code: document.getElementById('cost_code').value.trim(),
-                    extension: document.getElementById('extension').value.trim(),
-                    contact_group: document.getElementById('contact_group').value.trim(),
-                    remarks: document.getElementById('remarks').value.trim(),
-                    
+            } else {
+                // New Request Submission
+                const requestData = {
+                    ...formData,
                     status: '待申請單位主管簽核', // Initial status
-                    approving_manager: '',
+                    approving_manager: '', // Manager name placeholder
                     dispatch_method: '',
                     driver_name: '',
                     driver_phone: '',
                     admin_remarks: '',
-                    
                     created_at: serverTimestamp(),
-                    updated_at: serverTimestamp(),
                 };
 
                 try {
-                    const docRef = await addDoc(getRequestsCollectionRef(), newRequest);
-                    const approvalLink = `${window.location.origin}${window.location.pathname}?id=${docRef.id}`;
-                    showSuccessWithLink(`申請已成功送出！申請單號：**${docRef.id}**。請將此連結提供給您的主管進行簽核。`, approvalLink);
+                    const docRef = await addDoc(collection(db, REQUESTS_COLLECTION), requestData);
+                    const approvalLink = window.location.origin + window.location.pathname + '?requestId=' + docRef.id;
+                    showSuccessWithLink('您的派車申請已成功提交，請將以下簽核連結傳送給您的主管進行簽核。', approvalLink);
                     clearForm();
-                    setActiveTab('search');
-                    searchInput.value = newRequest.applicant_name;
-                    searchRequests(); // Auto-search for their request
                 } catch (error) {
-                    console.error("Error submitting request:", error);
-                    showAlert(`提交申請失敗: ${error.message}`);
-                } finally {
-                    submitBtn.disabled = false;
+                    console.error("Error adding document: ", error);
+                    showAlert(`提交申請失敗：${error.message}`, '錯誤');
                 }
             }
-            
-            async function updateRequestInDatabase(isAdminUpdate) {
-                const id = state.editingRequestId;
-                if (!id) return;
-                
-                submitBtn.disabled = true;
+        }
+        
+        // --- DEEP LINK HANDLER ---
+        async function loadRequestForEditing(requestId) {
+            try {
+                const docRef = doc(db, REQUESTS_COLLECTION, requestId);
+                const docSnap = await getDoc(docRef);
 
-                const branchValues = Array.from(document.querySelectorAll('input[name="branch"]:checked')).map(el => el.value);
-                const vehicleType = document.querySelector('input[name="vehicle_type"]:checked')?.value;
-
-                const updatedData = {
-                    updated_at: serverTimestamp(),
-                };
-
-                // Admin updates all fields
-                if (isAdminUpdate) {
-                    Object.assign(updatedData, {
-                        branch: branchValues,
-                        reason: document.getElementById('reason').value.trim(),
-                        vehicle_type: vehicleType,
-                        destination: document.getElementById('destination').value.trim(),
-                        passengers: parseInt(document.getElementById('passengers').value, 10),
-                        start_time: document.getElementById('start_time').value,
-                        end_time: document.getElementById('end_time').value,
-                        applicant_unit: document.getElementById('applicant_unit').value.trim(),
-                        cost_code: document.getElementById('cost_code').value.trim(),
-                        extension: document.getElementById('extension').value.trim(),
-                        contact_group: document.getElementById('contact_group').value.trim(),
-                        remarks: document.getElementById('remarks').value.trim(),
-                        
-                        status: document.getElementById('dispatch_status').value, // Admin updates status
-                        dispatch_method: document.getElementById('dispatch_method').value.trim(),
-                        driver_name: document.getElementById('driver_name').value.trim(),
-                        driver_phone: document.getElementById('driver_phone').value.trim(),
-                        admin_remarks: document.getElementById('admin_remarks').value.trim(),
-                    });
-                } else {
-                    // Applicant modifying a rejected request, only update applicant fields and reset status
-                    if (!validateForm()) {
-                        submitBtn.disabled = false;
-                        return;
-                    }
-
-                    Object.assign(updatedData, {
-                        branch: branchValues,
-                        reason: document.getElementById('reason').value.trim(),
-                        vehicle_type: vehicleType,
-                        destination: document.getElementById('destination').value.trim(),
-                        passengers: parseInt(document.getElementById('passengers').value, 10),
-                        start_time: document.getElementById('start_time').value,
-                        end_time: document.getElementById('end_time').value,
-                        applicant_unit: document.getElementById('applicant_unit').value.trim(),
-                        cost_code: document.getElementById('cost_code').value.trim(),
-                        extension: document.getElementById('extension').value.trim(),
-                        contact_group: document.getElementById('contact_group').value.trim(),
-                        remarks: document.getElementById('remarks').value.trim(),
-                        status: '待申請單位主管簽核', // Resubmit
-                        admin_remarks: '', // Clear old rejection remarks
-                        approving_manager: '',
-                    });
-                }
-
-                try {
-                    const docRef = doc(getRequestsCollectionRef(), id);
-                    await updateDoc(docRef, updatedData);
-                    showAlert('申請單已成功更新！', '更新成功');
-                    clearForm();
-                    setActiveTab(isAdminUpdate ? 'admin' : 'search');
-                } catch (error) {
-                    console.error("Error updating request:", error);
-                    showAlert(`更新申請單失敗: ${error.message}`);
-                } finally {
-                    submitBtn.disabled = false;
-                }
-            }
-
-            async function managerAction(action, managerName, managerRemarks) {
-                const id = state.editingRequestId;
-                if (!id) return;
-
-                let newStatus = '';
-                const updateData = { updated_at: serverTimestamp() };
-
-                if (action === 'approve') {
-                    newStatus = '待管理單位處理';
-                    updateData.approving_manager = managerName;
-                    updateData.admin_remarks = managerRemarks || '';
-                } else if (action === 'reject') {
-                    newStatus = '主管退回';
-                    updateData.approving_manager = managerName;
-                    updateData.admin_remarks = `主管退回意見: ${managerRemarks}`;
-                } else if (action === 'cancel') {
-                    newStatus = '案件取消';
-                } else {
-                    return;
-                }
-                
-                updateData.status = newStatus;
-
-                try {
-                    const docRef = doc(getRequestsCollectionRef(), id);
-                    await updateDoc(docRef, updateData);
-                    showAlert(`申請單號 ${id} 已處理：${newStatus}`, '處理完成');
-                    clearForm();
-                    // If deep-linked, just stay on apply tab but clear the deep link state
-                    if(state.deepLinkedRequestId) {
-                        state.deepLinkedRequestId = null;
-                        history.replaceState({}, document.title, window.location.pathname); // Clear URL parameter
-                    }
-                    setActiveTab(state.isLoggedIn ? 'admin' : 'apply');
-
-                } catch (error) {
-                    console.error("Error manager action:", error);
-                    showAlert(`主管操作失敗: ${error.message}`);
-                }
-            }
-
-
-            // --- RENDERING FUNCTIONS ---
-            function renderRequestCard(request, isManagerView = false) {
-                const formattedStartTime = formatTime(request.start_time);
-                const formattedEndTime = formatTime(request.end_time);
-                
-                let actionButton = '';
-                let cardColor = 'border-gray-200';
-                
-                // Admin/Manager View Action
-                if (isManagerView) {
-                    cardColor = request.status === '待管理單位處理' ? 'border-yellow-500' : 
-                                request.status === '待申請單位主管簽核' ? 'border-blue-500' : 'border-gray-200';
-                    actionButton = `<button data-id="${request.id}" class="admin-edit-btn py-2 px-4 bg-blue-500 text-white rounded-md text-sm font-medium hover:bg-blue-600">處理/查看</button>`;
-                } else {
-                    // Applicant View Action
-                    const canModify = request.status === '待申請單位主管簽核' || request.status === '主管退回';
-                    if (canModify) {
-                        actionButton = `
-                            <button data-id="${request.id}" class="search-edit-btn py-2 px-4 bg-yellow-500 text-white rounded-md text-sm font-medium hover:bg-yellow-600 mr-2">修改/重送</button>
-                            <button data-id="${request.id}" class="search-cancel-btn py-2 px-4 bg-red-500 text-white rounded-md text-sm font-medium hover:bg-red-600">取消申請</button>
-                        `;
-                    }
-                    cardColor = canModify ? 'border-yellow-500' : 'border-gray-200';
-                }
-
-                return `
-                    <div class="request-card bg-white p-4 border-l-4 ${cardColor} rounded-lg shadow-md">
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
-                            <div class="text-xs text-gray-500 font-mono">單號: ${request.id}</div>
-                            ${getStatusBadge(request.status)}
-                        </div>
-                        <p class="text-lg font-semibold text-gray-800 mb-1">${request.reason} <span class="text-sm font-normal text-blue-600 ml-2">(${request.branch.join(', ')})</span></p>
-                        <p class="text-sm text-gray-600 mb-2">申請人: ${request.applicant_name} | 單位: ${request.applicant_unit}</p>
-                        <div class="grid grid-cols-2 gap-y-1 text-sm text-gray-700 mt-3 border-t pt-2">
-                            <div><span class="font-medium">起迄時間:</span> ${formattedStartTime} ~ ${formattedEndTime}</div>
-                            <div><span class="font-medium">駛達地點:</span> ${request.destination}</div>
-                            <div><span class="font-medium">車輛/人數:</span> ${request.vehicle_type} / ${request.passengers}人</div>
-                            <div><span class="font-medium">分機:</span> ${request.extension}</div>
-                        </div>
-                        ${request.admin_remarks ? `<div class="mt-3 p-2 bg-gray-100 rounded text-sm text-red-700">備註/退回意見: ${request.admin_remarks}</div>` : ''}
-                        <div class="mt-4 flex justify-end">
-                            ${actionButton}
-                        </div>
-                    </div>
-                `;
-            }
-
-            function renderAdminRequests(filteredRequests = state.requests) {
-                requestsList.innerHTML = '';
-                if (filteredRequests.length === 0) {
-                    requestsList.innerHTML = `<p class="text-center text-gray-500 py-4">無申請記錄。</p>`;
-                    return;
-                }
-                
-                // Sort by status priority (Pending > Approval > Others) then by created time (newest first)
-                const statusPriority = {
-                    '待管理單位處理': 3,
-                    '待申請單位主管簽核': 2,
-                    '主管退回': 1,
-                    '案件取消': 0,
-                    '無法派車': 0,
-                    '已派車': 0,
-                };
-
-                const sortedRequests = [...filteredRequests].sort((a, b) => {
-                    const priorityA = statusPriority[a.status] || 0;
-                    const priorityB = statusPriority[b.status] || 0;
-
-                    if (priorityA !== priorityB) {
-                        return priorityB - priorityA;
-                    }
-                    // Secondary sort: newest first
-                    const dateA = a.created_at?.toDate ? a.created_at.toDate().getTime() : 0;
-                    const dateB = b.created_at?.toDate ? b.created_at.toDate().getTime() : 0;
-                    return dateB - dateA; 
-                });
-
-                sortedRequests.forEach(request => {
-                    requestsList.innerHTML += renderRequestCard(request, true);
-                });
-                
-                // Attach event listeners for admin view
-                requestsList.querySelectorAll('.admin-edit-btn').forEach(button => {
-                    button.onclick = (e) => {
-                        const requestId = e.target.dataset.id;
-                        const request = state.requests.find(r => r.id === requestId);
-                        if (request) {
-                            editRequestInForm(request);
-                        }
-                    };
-                });
-            }
-
-            function renderSearchResults(filteredRequests) {
-                searchResults.innerHTML = '';
-                if (filteredRequests.length === 0) {
-                    searchResults.innerHTML = `<p class="text-center text-gray-500 py-4">查無符合條件的申請記錄。</p>`;
-                    return;
-                }
-                
-                // Sort results by newest first
-                const sortedRequests = [...filteredRequests].sort((a, b) => {
-                    const dateA = a.created_at?.toDate ? a.created_at.toDate().getTime() : 0;
-                    const dateB = b.created_at?.toDate ? b.created_at.toDate().getTime() : 0;
-                    return dateB - dateA; 
-                });
-
-                sortedRequests.forEach(request => {
-                    searchResults.innerHTML += renderRequestCard(request, false);
-                });
-
-                 // Attach event listeners for search view (Applicant)
-                searchResults.querySelectorAll('.search-edit-btn').forEach(button => {
-                    button.onclick = (e) => {
-                        const requestId = e.target.dataset.id;
-                        const request = state.requests.find(r => r.id === requestId);
-                        if (request) {
-                            // Enable all fields for applicant to modify a rejected request
-                            loadRequestForApplicantEdit(request);
-                        }
-                    };
-                });
-                
-                searchResults.querySelectorAll('.search-cancel-btn').forEach(button => {
-                    button.onclick = (e) => {
-                        const requestId = e.target.dataset.id;
-                        const request = state.requests.find(r => r.id === requestId);
-                        if (request) {
-                            showConfirm(`您確定要取消單號為 ${requestId} 的派車申請嗎？`, (confirmed) => {
-                                if (confirmed) {
-                                    managerAction('cancel'); // Reusing manager action for cancel
-                                }
-                            }, '取消申請確認');
-                            state.editingRequestId = requestId; // Set ID temporarily for action
-                        }
-                    };
-                });
-            }
-            
-            function loadRequestForApplicantEdit(request) {
-                 clearForm(true); // Clear everything and reset admin section
-                 state.editingRequestId = request.id;
-                 requestIdInput.value = request.id;
-                 submitBtn.textContent = '重新送出申請';
-                 
-                 // Enable all fields for applicant
-                 const allFields = form.querySelectorAll('input, select, textarea');
-                 allFields.forEach(el => {
-                     el.classList.remove('disabled-input');
-                     el.readOnly = false;
-                     el.disabled = false;
-                 });
-
-                 // Load data
-                 document.getElementById('reason').value = request.reason || '';
-                 document.getElementById('destination').value = request.destination || '';
-                 document.getElementById('passengers').value = request.passengers || '';
-                 document.getElementById('start_time').value = request.start_time ? request.start_time.substring(0, 16) : '';
-                 document.getElementById('end_time').value = request.end_time ? request.end_time.substring(0, 16) : '';
-                 document.getElementById('applicant_unit').value = request.applicant_unit || '';
-                 document.getElementById('cost_code').value = request.cost_code || '';
-                 document.getElementById('extension').value = request.extension || '';
-                 document.getElementById('contact_group').value = request.contact_group || '';
-                 document.getElementById('applicant_name').value = request.applicant_name || '';
-                 document.getElementById('remarks').value = request.remarks || '';
-
-                 document.querySelectorAll('input[name="branch"]').forEach(el => el.checked = request.branch.includes(el.value));
-                 document.querySelectorAll('input[name="vehicle_type"]').forEach(el => el.checked = (request.vehicle_type === el.value));
-
-                 setActiveTab('apply');
-                 window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-
-            // --- SEARCH & FILTER LOGIC ---
-            function searchRequests() {
-                const queryText = searchInput.value.trim().toLowerCase();
-                if (!queryText) {
-                    searchResults.innerHTML = `<p class="text-center text-gray-500">請輸入姓名或單號以查詢您的申請記錄。</p>`;
-                    return;
-                }
-
-                const filtered = state.requests.filter(request => 
-                    request.id?.toLowerCase().includes(queryText) || 
-                    request.applicant_name?.toLowerCase().includes(queryText)
-                );
-                renderSearchResults(filtered);
-            }
-            
-            function adminSearchRequests() {
-                const queryText = adminSearchInput.value.trim().toLowerCase();
-                if (!queryText) {
-                    renderAdminRequests(state.requests);
-                    return;
-                }
-
-                const filtered = state.requests.filter(request => 
-                    request.id?.toLowerCase().includes(queryText)
-                );
-                renderAdminRequests(filtered);
-            }
-
-
-            // --- FIREBASE LISTENER ---
-            function updatePendingCount(requests) {
-                const pendingCount = requests.filter(r => r.status === '待管理單位處理' || r.status === '待申請單位主管簽核').length;
-                if (pendingCount > 0) {
-                    pendingCountBadge.textContent = pendingCount;
-                    pendingCountBadge.classList.remove('hidden');
-                    // Add pulse effect if there are dispatcher pending requests
-                    if (requests.some(r => r.status === '待管理單位處理')) {
-                         pendingCountBadge.classList.add('animate-pulse-badge');
-                    } else {
-                         pendingCountBadge.classList.remove('animate-pulse-badge');
-                    }
-                } else {
-                    pendingCountBadge.classList.add('hidden');
-                    pendingCountBadge.classList.remove('animate-pulse-badge');
-                }
-            }
-
-            function setupFirestoreListener() {
-                const colRef = getRequestsCollectionRef();
-
-                onSnapshot(colRef, (snapshot) => {
-                    const requests = [];
-                    snapshot.forEach(doc => {
-                        requests.push({ id: doc.id, ...doc.data() });
-                    });
-                    state.requests = requests;
-
-                    // Update UI components that rely on all requests
-                    renderAdminRequests();
-                    updatePendingCount(requests);
-
-                    // Re-run search if a query is active
-                    if (state.activeTab === 'search') {
-                        searchRequests();
-                    }
-                    
-                    // Re-run stats if active
-                    if (state.activeTab === 'stats' && state.isLoggedIn) {
-                         updateStats();
-                    }
-
-                    // Handle Deep Link
-                    if (state.deepLinkedRequestId) {
-                        const deepLinkedRequest = requests.find(r => r.id === state.deepLinkedRequestId);
-                        if (deepLinkedRequest) {
-                            loadRequestForApproval(deepLinkedRequest);
-                        } else {
-                            showAlert('找不到此申請單號，或連結已失效。', '錯誤');
-                            state.deepLinkedRequestId = null;
-                            history.replaceState({}, document.title, window.location.pathname); 
-                        }
-                    }
-
-                }, (error) => {
-                    console.error("Firestore snapshot error:", error);
-                    showAlert(`數據庫連線錯誤: ${error.message}`, '錯誤');
-                });
-            }
-
-            // --- STATS / CHART.JS ---
-            function processRequestsForStats(requests) {
-                const filterMonth = statsMonthFilter.value;
-                
-                const filtered = requests.filter(r => {
-                    if (!r.created_at || !r.created_at.toDate) return false;
-                    const date = r.created_at.toDate();
-                    const monthString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-                    return monthString === filterMonth;
-                });
-
-                // Status Count
-                const statusCounts = filtered.reduce((acc, r) => {
-                    acc[r.status] = (acc[r.status] || 0) + 1;
-                    return acc;
-                }, {});
-
-                // Branch Count (using set to count total unique branches per request)
-                const branchCounts = filtered.reduce((acc, r) => {
-                    if (Array.isArray(r.branch)) {
-                        r.branch.forEach(b => {
-                            acc[b] = (acc[b] || 0) + 1;
-                        });
-                    }
-                    return acc;
-                }, {});
-
-                // Driver Count (only for '已派車')
-                 const driverCounts = filtered
-                    .filter(r => r.status === '已派車' && r.driver_name)
-                    .reduce((acc, r) => {
-                        const driver = r.driver_name;
-                        acc[driver] = (acc[driver] || 0) + 1;
-                        return acc;
-                    }, {});
-
-                return { filteredRequests: filtered, statusCounts, branchCounts, driverCounts };
-            }
-
-            function updateStats() {
-                const { filteredRequests, statusCounts, branchCounts, driverCounts } = processRequestsForStats(state.requests);
-                statsTotalRequests.textContent = filteredRequests.length;
-                
-                // 1. Status Chart (Pie/Doughnut)
-                renderDoughnutChart(
-                    document.getElementById('status-chart'),
-                    statusCounts,
-                    '申請狀態分佈',
-                    statusChartInstance,
-                    'statusChartInstance'
-                );
-
-                // 2. Branch Chart (Bar)
-                renderBarChart(
-                    document.getElementById('branch-chart'),
-                    branchCounts,
-                    '各院區申請量',
-                    branchChartInstance,
-                    'branchChartInstance'
-                );
-                
-                // 3. Driver Chart (Horizontal Bar)
-                renderHorizontalBarChart(
-                    document.getElementById('driver-chart'),
-                    driverCounts,
-                    '各司機趟次統計',
-                    driverChartInstance,
-                    'driverChartInstance'
-                );
-            }
-
-            function renderDoughnutChart(ctx, data, title, instance, instanceName) {
-                if (instance) {
-                    instance.destroy();
-                }
-                const labels = Object.keys(data);
-                const values = Object.values(data);
-                
-                const statusColors = {
-                    '待申請單位主管簽核': '#93c5fd',
-                    '主管退回': '#fcd34d',
-                    '待管理單位處理': '#fbbd23',
-                    '已派車': '#10b981',
-                    '案件取消': '#f87171',
-                    '無法派車': '#9ca3af',
-                };
-                const colors = labels.map(label => statusColors[label] || '#e5e7eb');
-
-                window[instanceName] = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            data: values,
-                            backgroundColor: colors,
-                            hoverOffset: 4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: { position: 'bottom' },
-                            title: { display: true, text: title, font: { size: 16 } }
-                        }
-                    }
-                });
-            }
-
-            function renderBarChart(ctx, data, title, instance, instanceName) {
-                 if (instance) {
-                    instance.destroy();
-                }
-                const labels = Object.keys(data);
-                const values = Object.values(data);
-                
-                 window[instanceName] = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: '申請量',
-                            data: values,
-                            backgroundColor: '#3b82f6',
-                            borderColor: '#2563eb',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: { display: false },
-                            title: { display: true, text: title, font: { size: 16 } }
-                        },
-                         scales: {
-                            y: { beginAtZero: true }
-                        }
-                    }
-                });
-            }
-            
-            function renderHorizontalBarChart(ctx, data, title, instance, instanceName) {
-                if (instance) {
-                    instance.destroy();
-                }
-                const labels = Object.keys(data);
-                const values = Object.values(data);
-                
-                window[instanceName] = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: '派車趟次',
-                            data: values,
-                            backgroundColor: '#10b981',
-                            borderColor: '#059669',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        indexAxis: 'y', // Makes it a horizontal bar chart
-                        responsive: true,
-                        plugins: {
-                            legend: { display: false },
-                            title: { display: true, text: title, font: { size: 16 } }
-                        },
-                         scales: {
-                            x: { beginAtZero: true }
-                        }
-                    }
-                });
-            }
-
-            // --- EXCEL EXPORT ---
-            function exportToExcel() {
-                const { filteredRequests } = processRequestsForStats(state.requests);
-                
-                if (filteredRequests.length === 0) {
-                    showAlert('無數據可匯出。請確認月份篩選條件。');
-                    return;
-                }
-
-                const data = filteredRequests.map(r => ({
-                    '申請單號': r.id,
-                    '申請狀態': r.status,
-                    '申請人': r.applicant_name,
-                    '申請單位': r.applicant_unit,
-                    '院區': r.branch.join(', '),
-                    '用車事由': r.reason,
-                    '駛達地點': r.destination,
-                    '搭乘人數': r.passengers,
-                    '車輛種類': r.vehicle_type,
-                    '預定派車時間 (起)': formatTime(r.start_time),
-                    '預定派車時間 (迄)': formatTime(r.end_time),
-                    '費用部門代號': r.cost_code,
-                    '聯絡分機': r.extension,
-                    '聯絡群組': r.contact_group,
-                    '備註 (申請人)': r.remarks,
-                    '簽核主管': r.approving_manager,
-                    '派車方式': r.dispatch_method,
-                    '司機姓名': r.driver_name,
-                    '司機電話': r.driver_phone,
-                    '承辦備註': r.admin_remarks,
-                    '申請日期': formatTime(r.created_at),
-                }));
-
-                const worksheet = XLSX.utils.json_to_sheet(data);
-                const workbook = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(workbook, worksheet, "派車申請記錄");
-                XLSX.writeFile(workbook, `派車申請記錄_${statsMonthFilter.value}.xlsx`);
-            }
-
-            // --- INITIALIZATION & EVENT LISTENERS ---
-            
-            // Check for deep link ID (for manager approval)
-            function checkDeepLink() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const requestId = urlParams.get('id');
-                if (requestId) {
-                    state.deepLinkedRequestId = requestId;
+                if (docSnap.exists()) {
+                    const request = { id: docSnap.id, ...docSnap.data() };
                     setActiveTab('apply');
-                    showAlert(`偵測到簽核連結，正在載入申請單號: **${requestId}**...`, '簽核通知');
+                    populateForm(request);
+                } else {
+                    showAlert('找不到指定的申請單。請檢查單號是否正確。', '查詢錯誤');
                 }
+            } catch (error) {
+                console.error("Error loading deep-linked document:", error);
+                showAlert(`載入申請單時發生錯誤：${error.message}`, '系統錯誤');
             }
+        }
 
-            // Initial UI setup
-            checkDeepLink();
-            clearForm();
-            updateUI();
-            setupFirestoreListener(); // Start listening for data changes
+        // --- FIREBASE CRUD & LISTENERS ---
 
-            // Event Listeners
-            tabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    setActiveTab(button.dataset.tab);
+        /** Updates the request with new data. */
+        async function updateRequest(id, data) {
+             if (!state.isAuthReady) {
+                 showAlert('Firebase 驗證尚未完成，請稍候再試。', '系統忙碌');
+                 return;
+             }
+             try {
+                 const docRef = doc(db, REQUESTS_COLLECTION, id);
+                 await updateDoc(docRef, data);
+                 console.log(`Request ${id} updated.`);
+                 // Clear the deep link after action to revert to default state
+                 state.deepLinkedRequestId = null;
+             } catch (error) {
+                 console.error("Error updating document: ", error);
+                 showAlert(`更新申請單失敗：${error.message}`, '錯誤');
+             }
+        }
+
+        /** Handles manager approval action */
+        document.getElementById('manager-approve-btn').onclick = () => {
+             if (!state.editingRequestId) return;
+             showConfirm('確定要通過這筆申請單嗎？', async (confirmed) => {
+                 if (confirmed) {
+                     const managerName = document.getElementById('applicant_name').value + ' (主管)'; // Use applicant name for placeholder
+                     await updateRequest(state.editingRequestId, {
+                         status: '待管理單位處理',
+                         approving_manager: managerName,
+                         updated_at: serverTimestamp(),
+                     });
+                     showAlert(`申請單 (單號: ${state.editingRequestId}) 已成功核准，請等待管理單位處理。`, '核准成功');
+                     clearForm();
+                 }
+             }, '主管簽核');
+        };
+        
+        /** Handles manager reject action */
+        document.getElementById('manager-reject-btn').onclick = () => {
+             if (!state.editingRequestId) return;
+             showConfirm('確定要退回這筆申請單嗎？', async (confirmed) => {
+                 if (confirmed) {
+                     const managerName = document.getElementById('applicant_name').value + ' (主管)'; 
+                     await updateRequest(state.editingRequestId, {
+                         status: '主管退回',
+                         approving_manager: managerName,
+                         updated_at: serverTimestamp(),
+                     });
+                     showAlert(`申請單 (單號: ${state.editingRequestId}) 已被退回。`, '退回成功');
+                     clearForm();
+                 }
+             }, '主管退回');
+        };
+        
+        /** Handles applicant cancel action (for both manager view and general view if pending) */
+        document.getElementById('manager-cancel-btn').onclick = () => {
+            if (!state.editingRequestId) return;
+            const currentRequest = state.requests.find(r => r.id === state.editingRequestId);
+            
+            if (currentRequest && currentRequest.status !== '待申請單位主管簽核') {
+                 // In admin/view mode, cancel is only allowed if status is pending manager
+                 if (state.activeTab !== 'admin') {
+                      showAlert(`此申請單目前狀態為【${currentRequest.status}】，無法由申請人取消。`, '取消失敗');
+                      return;
+                 }
+            }
+            
+            showConfirm('確定要取消這筆派車申請嗎？', async (confirmed) => {
+                if (confirmed) {
+                    await updateRequest(state.editingRequestId, {
+                        status: '案件取消',
+                        updated_at: serverTimestamp(),
+                    });
+                    showAlert(`申請單 (單號: ${state.editingRequestId}) 已取消。`, '取消成功');
                     clearForm();
+                }
+            }, '取消確認');
+        };
+
+        // Real-time listener for ALL requests (Admin/Stats usage)
+        function setupRealtimeListener() {
+            const q = query(collection(db, REQUESTS_COLLECTION));
+            
+            onSnapshot(q, (snapshot) => {
+                const updatedRequests = [];
+                snapshot.forEach((doc) => {
+                    updatedRequests.push({ id: doc.id, ...doc.data() });
                 });
+                state.requests = updatedRequests;
+                renderRequestsList(state.requests);
+                updateAdminUI(); // Update badges/login views
+
+                // After receiving updates, if we have a deep-linked ID, try to load it again
+                if (state.deepLinkedRequestId) {
+                    const linkedRequest = state.requests.find(r => r.id === state.deepLinkedRequestId);
+                    if (linkedRequest) {
+                        populateForm(linkedRequest);
+                    } else {
+                        // If it fails to load after initial snapshot, try a specific fetch.
+                        loadRequestForEditing(state.deepLinkedRequestId); 
+                    }
+                }
+            }, (error) => {
+                console.error("Error fetching requests: ", error);
+                showAlert(`無法載入申請列表：${error.message}`, '資料庫錯誤');
+            });
+        }
+        
+        // Render functions for Admin/Search Tabs
+        function renderRequestsList(requests) {
+             const filterText = adminSearchInput.value.trim().toLowerCase();
+             const filteredRequests = requests.filter(r => 
+                 !filterText || r.id.toLowerCase().includes(filterText) || 
+                 r.applicant_name.toLowerCase().includes(filterText) ||
+                 r.applicant_unit.toLowerCase().includes(filterText)
+             );
+
+             requestsList.innerHTML = filteredRequests.length === 0 
+                ? '<p class="text-center text-gray-500 py-10">查無任何申請記錄。</p>' 
+                : filteredRequests.map(request => createRequestCard(request, true)).join('');
+        }
+        
+        function renderSearchResults(requests) {
+             if (requests.length === 0) {
+                 searchResults.innerHTML = '<p class="text-center text-gray-500 py-4">找不到符合條件的申請記錄。</p>';
+                 return;
+             }
+             searchResults.innerHTML = requests.map(request => createRequestCard(request, false)).join('');
+        }
+
+        function createRequestCard(request, isAdminView) {
+            const displayId = request.id.substring(0, 8);
+            const statusBadge = `<span class="status-badge" data-status="${request.status}">${request.status}</span>`;
+            const dateStr = formatTimestamp(request.created_at);
+            const timeRange = `${formatTimestamp(request.start_time).split(' ')[1]} - ${formatTimestamp(request.end_time).split(' ')[1]}`;
+            
+            const actionButton = isAdminView 
+                ? `<button data-id="${request.id}" class="view-admin-btn mt-2 sm:mt-0 w-full sm:w-auto py-2 px-4 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700">處理/檢視</button>`
+                : `<button data-id="${request.id}" class="view-applicant-btn mt-2 sm:mt-0 w-full sm:w-auto py-2 px-4 bg-gray-600 text-white rounded-lg text-sm font-medium hover:bg-gray-700">查看詳情</button>`;
+
+            return `
+                <div class="request-card bg-white p-4 border border-gray-200 rounded-xl shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                    <div class="space-y-1 sm:space-y-0 w-full sm:w-auto">
+                        <div class="flex items-center space-x-2">
+                             <span class="text-xs font-semibold text-gray-400">#${displayId}</span>
+                            ${statusBadge}
+                        </div>
+                        <p class="text-lg font-semibold text-gray-800">${request.reason} <span class="text-sm font-normal text-gray-500">(${request.applicant_name})</span></p>
+                        <p class="text-sm text-gray-600"><strong>單位:</strong> ${request.applicant_unit} | <strong>時間:</strong> ${dateStr.split(' ')[0]} ${timeRange}</p>
+                    </div>
+                    ${actionButton}
+                </div>
+            `;
+        }
+
+        // --- STATS LOGIC ---
+        function renderStats() {
+            if (!state.isLoggedIn || state.requests.length === 0) return;
+            
+            const currentMonth = statsMonthFilter.value || new Date().toISOString().substring(0, 7);
+            
+            const monthlyRequests = state.requests.filter(r => {
+                 if (!r.created_at) return false;
+                 const date = r.created_at.toDate ? r.created_at.toDate() : new Date(r.created_at);
+                 return date.toISOString().startsWith(currentMonth);
+            });
+            
+            statsTotalRequests.textContent = monthlyRequests.length;
+            
+            // 1. Status Chart
+            const statusCounts = monthlyRequests.reduce((acc, r) => {
+                 acc[r.status] = (acc[r.status] || 0) + 1;
+                 return acc;
+            }, {});
+            const statusLabels = Object.keys(statusCounts);
+            const statusData = Object.values(statusCounts);
+            
+            if (statusChartInstance) statusChartInstance.destroy();
+            statusChartInstance = new Chart(document.getElementById('status-chart'), {
+                 type: 'doughnut',
+                 data: {
+                     labels: statusLabels,
+                     datasets: [{
+                         data: statusData,
+                         backgroundColor: ['#e0e7ff', '#FEF9C3', '#fef3c7', '#d1fae5', '#fee2e2', '#e5e7eb'],
+                     }]
+                 },
+                 options: { responsive: true, maintainAspectRatio: false }
             });
 
-            form.addEventListener('submit', submitRequest);
-            clearBtn.addEventListener('click', () => {
-                showConfirm('您確定要清空所有表單內容嗎？', (confirmed) => {
-                    if (confirmed) clearForm();
-                });
+            // 2. Branch Chart
+            const branchCounts = monthlyRequests.flatMap(r => r.branch || []).reduce((acc, b) => {
+                 acc[b] = (acc[b] || 0) + 1;
+                 return acc;
+            }, {});
+            const branchLabels = Object.keys(branchCounts);
+            const branchData = Object.values(branchCounts);
+
+            if (branchChartInstance) branchChartInstance.destroy();
+            branchChartInstance = new Chart(document.getElementById('branch-chart'), {
+                 type: 'bar',
+                 data: {
+                     labels: branchLabels,
+                     datasets: [{
+                         label: '申請量',
+                         data: branchData,
+                         backgroundColor: '#3b82f6',
+                     }]
+                 },
+                 options: { 
+                     responsive: true, 
+                     maintainAspectRatio: false,
+                     scales: { y: { beginAtZero: true } }
+                 }
             });
+
+            // 3. Driver Chart (Filtered by '已派車')
+            const dispatchedRequests = monthlyRequests.filter(r => r.status === '已派車');
+            const driverCounts = dispatchedRequests.reduce((acc, r) => {
+                 const driver = r.driver_name || '未指定';
+                 acc[driver] = (acc[driver] || 0) + 1;
+                 return acc;
+            }, {});
+            const driverLabels = Object.keys(driverCounts);
+            const driverData = Object.values(driverCounts);
             
-            adminLoginPromptBtn.addEventListener('click', promptLogin);
-            statsLoginPromptBtn.addEventListener('click', promptLogin);
-            
-            logoutBtn.addEventListener('click', () => {
-                state.isLoggedIn = false;
-                showAlert('已登出管理帳號。');
-                updateUI();
-                setActiveTab('apply');
+            if (driverChartInstance) driverChartInstance.destroy();
+            driverChartInstance = new Chart(document.getElementById('driver-chart'), {
+                 type: 'bar',
+                 data: {
+                     labels: driverLabels,
+                     datasets: [{
+                         label: '派車趟次',
+                         data: driverData,
+                         backgroundColor: '#10b981',
+                     }]
+                 },
+                 options: { 
+                     responsive: true, 
+                     maintainAspectRatio: false,
+                     indexAxis: 'y', // Horizontal bars
+                     scales: { x: { beginAtZero: true } }
+                 }
             });
-            
-            searchBtn.addEventListener('click', searchRequests);
-            searchInput.addEventListener('keydown', (e) => {
-                 if (e.key === 'Enter') searchRequests();
-            });
-            
-            adminSearchInput.addEventListener('input', adminSearchRequests);
-            refreshAdminListBtn.addEventListener('click', () => renderAdminRequests(state.requests));
-            
-            // Manager Action Buttons in Apply Tab
-            document.getElementById('manager-approve-btn').onclick = () => {
-                promptManagerAction((action, name, remarks) => {
-                    if (action === 'approve') managerAction(action, name, remarks);
-                });
-            };
-            document.getElementById('manager-reject-btn').onclick = () => {
-                 promptManagerAction((action, name, remarks) => {
-                    if (action === 'reject') managerAction(action, name, remarks);
-                });
-            };
-            document.getElementById('manager-cancel-btn').onclick = () => {
-                 showConfirm('您確定要取消此派車申請嗎？', (confirmed) => {
-                    if (confirmed) managerAction('cancel');
-                }, '取消申請確認');
-            };
-            
-            // Stats listeners
-            statsMonthFilter.addEventListener('change', updateStats);
-            exportExcelBtn.addEventListener('click', exportToExcel);
-            
-             // Set default month filter
-            const now = new Date();
-            statsMonthFilter.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+        }
+
+
+        // --- EVENT LISTENERS SETUP ---
+        
+        // Tab Clicks
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => setActiveTab(btn.dataset.tab));
         });
+
+        // Form Actions
+        form.addEventListener('submit', submitForm);
+        clearBtn.addEventListener('click', clearForm);
+        
+        // Admin/Stats Login
+        adminLoginPromptBtn.addEventListener('click', promptLogin);
+        document.getElementById('stats-login-prompt-btn').addEventListener('click', promptLogin);
+        logoutBtn.addEventListener('click', () => {
+             showConfirm('確定要登出管理員身分嗎？', (confirmed) => {
+                 if (confirmed) {
+                     state.isLoggedIn = false;
+                     updateAdminUI();
+                     setActiveTab('apply');
+                     showAlert('已登出。', '登出成功');
+                 }
+             }, '登出確認');
+        });
+        
+        // Admin List Refresh/Search
+        refreshAdminListBtn.addEventListener('click', () => renderRequestsList(state.requests));
+        adminSearchInput.addEventListener('input', () => renderRequestsList(state.requests));
+        
+        // Admin/Applicant View Clicks (Delegation)
+        document.getElementById('tab-content-admin').addEventListener('click', (e) => {
+             const btn = e.target.closest('.view-admin-btn');
+             if (btn) {
+                 state.deepLinkedRequestId = btn.dataset.id;
+                 setActiveTab('apply');
+                 loadRequestForEditing(btn.dataset.id);
+             }
+        });
+        document.getElementById('tab-content-search').addEventListener('click', (e) => {
+             const btn = e.target.closest('.view-applicant-btn');
+             if (btn) {
+                 state.deepLinkedRequestId = btn.dataset.id;
+                 setActiveTab('apply');
+                 loadRequestForEditing(btn.dataset.id);
+             }
+        });
+        
+        // Stats Filter
+        document.getElementById('stats-month-filter').addEventListener('change', renderStats);
+        document.getElementById('stats-month-filter').value = new Date().toISOString().substring(0, 7); // Set default month to current
+
+        // Search Tab Button
+        searchBtn.addEventListener('click', () => {
+             const queryText = searchInput.value.trim().toLowerCase();
+             if (!queryText) {
+                 renderSearchResults([]);
+                 return;
+             }
+             
+             const results = state.requests.filter(r => 
+                 r.id.toLowerCase().includes(queryText) || 
+                 r.applicant_name.toLowerCase().includes(queryText)
+             );
+             renderSearchResults(results);
+        });
+
+        // Excel Export
+        document.getElementById('export-excel-btn').addEventListener('click', () => {
+             const dataToExport = state.requests.map(r => ({
+                 '申請單號': r.id,
+                 '狀態': r.status,
+                 '用車事由': r.reason,
+                 '院區': r.branch ? r.branch.join(', ') : '',
+                 '車輛種類': r.vehicle_type,
+                 '駛達地點': r.destination,
+                 '搭乘人數': r.passengers,
+                 '預定起始時間': formatTimestamp(r.start_time),
+                 '預定結束時間': formatTimestamp(r.end_time),
+                 '申請單位': r.applicant_unit,
+                 '申請人姓名': r.applicant_name,
+                 '聯絡分機': r.extension,
+                 '費用部門代號': r.cost_code,
+                 '聯絡群組': r.contact_group,
+                 '申請備註': r.remarks,
+                 '簽核主管': r.approving_manager || 'N/A',
+                 '派車方式': r.dispatch_method || '',
+                 '司機姓名': r.driver_name || '',
+                 '司機電話': r.driver_phone || '',
+                 '承辦備註': r.admin_remarks || '',
+                 '建立時間': formatTimestamp(r.created_at)
+             }));
+
+             const ws = XLSX.utils.json_to_sheet(dataToExport);
+             const wb = XLSX.utils.book_new();
+             XLSX.utils.book_append_sheet(wb, ws, "派車申請資料");
+             const filename = `派車申請紀錄_${new Date().toISOString().substring(0, 10)}.xlsx`;
+             XLSX.writeFile(wb, filename);
+             showAlert('數據已成功匯出為 Excel 檔案！', '匯出完成');
+        });
+
+
+        // --- INITIALIZATION ---
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                 state.userId = user.uid;
+                 state.isAuthReady = true;
+                 console.log("Auth state ready. User ID:", user.uid);
+                 
+                 // 1. Setup real-time listener for all data
+                 setupRealtimeListener();
+
+                 // 2. Check for deep link
+                 if (state.deepLinkedRequestId) {
+                    console.log("Deep link detected:", state.deepLinkedRequestId);
+                    loadRequestForEditing(state.deepLinkedRequestId);
+                 }
+            } else {
+                 console.log("User is signed out or unavailable.");
+                 state.isAuthReady = true; // Still mark as ready even if anonymous
+            }
+        });
+        
+        // Initial call to start auth process
+        // authenticateUser() is now called on window load, which is appropriate for Firebase JS SDK.
+        
+        // Final window load tasks
+        window.addEventListener('load', async () => {
+             // ensure authentication is attempted once the DOM is ready
+             await authenticateUser();
+             
+             // Set default tab if no deep link is processed
+             if (!state.deepLinkedRequestId) {
+                setActiveTab('apply');
+             }
+        });
+        
     </script>
 </body>
 </html>
-
