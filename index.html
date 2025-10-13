@@ -206,3 +206,219 @@
 
                         <div id="tab-content-stats" class="tab-content hidden bg-white p-6 sm:p-8 rounded-b-2xl shadow-lg">
                  <div id="stats-view" class="hidden">
+                     <div class="flex justify-between items-center mb-6 border-b pb-4">
+                         <h2 class="text-xl font-bold text-gray-800">數據統計分析</h2>
+                         <button id="export-excel-btn" class="py-2 px-4 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">匯出 Excel</button>
+                     </div>
+
+                     <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 p-4 bg-gray-50 rounded-lg">
+                         <div class="flex items-center gap-2">
+                             <label for="stats-month-filter" class="text-sm font-medium text-gray-700">篩選月份:</label>
+                             <input type="month" id="stats-month-filter" class="border-gray-300 rounded-md shadow-sm p-2">
+                         </div>
+                         <div class="flex gap-4 text-center">
+                             <div class="p-2">
+                                 <p class="text-2xl font-bold text-blue-600" id="stats-total-requests">0</p>
+                                 <p class="text-sm font-medium text-gray-500">總申請筆數</p>
+                             </div>
+                         </div>
+                     </div>
+
+                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                         <div class="p-4 border rounded-lg lg:col-span-2">
+                             <h3 class="text-center font-semibold mb-4 text-gray-700">各司機趟次統計</h3>
+                             <canvas id="driver-chart"></canvas>
+                         </div>
+                          <div class="p-4 border rounded-lg"><h3 class="text-center font-semibold mb-4 text-gray-700">申請狀態分佈</h3><canvas id="status-chart"></canvas></div>
+                          <div class="p-4 border rounded-lg"><h3 class="text-center font-semibold mb-4 text-gray-700">各院區申請量</h3><canvas id="branch-chart"></canvas></div>
+                     </div>
+                 </div>
+                 <div id="stats-login-prompt" class="text-center py-10">
+                     <p class="text-gray-600">此為管理員專區，請先登入查看統計數據。</p>
+                     <button id="stats-login-prompt-btn" class="mt-4 py-2 px-6 border border-transparent shadow-sm text-base font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700">立即登入</button>
+                 </div>
+            </div>
+        </main>
+    </div>
+
+        <div id="custom-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm transform transition-all">
+            <h3 id="modal-title" class="text-lg font-medium text-gray-900">通知</h3>
+            <div id="modal-content" class="mt-2 text-sm text-gray-600"></div>
+            <div id="modal-buttons" class="mt-5 sm:mt-6 flex justify-end space-x-3"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, onSnapshot, addDoc, doc, updateDoc, deleteDoc, serverTimestamp, setLogLevel, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // === START: FIREBASE CONFIGURATION AND INITIALIZATION (已更新 apiKey) ===
+        // 您的 Firebase 網頁應用程式配置 (根據 image_a3b5b8.png 重新建構)
+        const firebaseConfig = {
+            // *** 已將 YOUR_NEW_API_KEY_HERE 替換為新的金鑰佔位符號。請務必將此行替換為您的實際 API Key！ ***
+            apiKey: "YOUR_NEW_API_KEY_HERE", 
+            authDomain: "cch2500-5bb6.firebaseapp.com",
+            projectId: "cch2500-5bb6",
+            // 由於您的程式碼有使用 Firestore 和 Auth，此處從截圖中補齊了必要的配置資訊。
+            storageBucket: "cch2500-5bb6.firebasestorage.app.com",
+            messagingSenderId: "223711217941",
+            appId: "1:223711217941:web:f14461a86a9f89ca01c11c",
+            measurementId: "G-59DE0ITMTO" // (此項為 Google Analytics 相關，可選)
+        };
+
+        // 初始化 Firebase 服務
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        // === END: FIREBASE CONFIGURATION AND INITIALIZATION ===
+
+
+        window.addEventListener('load', () => {
+            const state = {
+                isLoggedIn: false,
+                requests: [],
+                editingRequestId: null,
+                activeTab: 'apply',
+                db: db, // 引用已初始化的 Firestore 實例
+                auth: auth, // 引用已初始化的 Auth 實例
+                deepLinkedRequestId: null,
+            };
+            
+            let statusChartInstance, branchChartInstance, driverChartInstance;
+
+            // --- CACHE ELEMENTS ---
+            const form = document.getElementById('dispatchForm');
+            const logoutBtn = document.getElementById('logout-btn');
+            const submitBtn = document.getElementById('submit-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const requestIdInput = document.getElementById('request-id');
+            const adminSection = document.getElementById('admin-section');
+            const adminFields = ['dispatch_status', 'dispatch_method', 'driver_name', 'driver_phone', 'admin_remarks'].map(id => document.getElementById(id));
+            
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            const adminView = document.getElementById('admin-view');
+            const adminLoginPrompt = document.getElementById('admin-login-prompt');
+            const adminLoginPromptBtn = document.getElementById('admin-login-prompt-btn');
+            const requestsList = document.getElementById('requests-list');
+            const pendingCountBadge = document.getElementById('pending-count');
+            
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            const searchResults = document.getElementById('search-results');
+            const adminSearchInput = document.getElementById('admin-search-input');
+            const refreshAdminListBtn = document.getElementById('refresh-admin-list-btn');
+
+            const statsTabBtn = document.querySelector('button[data-tab="stats"]');
+            const statsView = document.getElementById('stats-view');
+            const statsLoginPrompt = document.getElementById('stats-login-prompt');
+            const statsLoginPromptBtn = document.getElementById('stats-login-prompt-btn');
+            const exportExcelBtn = document.getElementById('export-excel-btn');
+            const statsMonthFilter = document.getElementById('stats-month-filter');
+            const statsTotalRequests = document.getElementById('stats-total-requests');
+
+            // --- MODAL ELEMENTS & FUNCTIONS ---
+            const modal = document.getElementById('custom-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalContent = document.getElementById('modal-content');
+            const modalButtons = document.getElementById('modal-buttons');
+
+            function hideModal() { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+            function showAlert(message, title = '通知') { 
+                modalTitle.textContent = title;
+                modalContent.innerHTML = `<p>${message}</p>`;
+                modalButtons.innerHTML = `<button id="modal-ok-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none">確定</button>`;
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                const okBtn = document.getElementById('modal-ok-btn');
+                okBtn.onclick = hideModal;
+                okBtn.focus();
+            }
+           function showSuccessWithLink(message, link) {
+                modalTitle.textContent = '申請成功';
+                modalContent.innerHTML = `
+                    <p>${message}</p>
+                    <div class="mt-4">
+                        <label for="approval-link" class="block text-sm font-medium text-gray-700 text-left">專屬簽核連結</label>
+                        <input type="text" id="approval-link" readonly class="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm" value="${link}">
+                    </div>
+                `;
+                modalButtons.innerHTML = `
+                    <button id="modal-copy-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none">複製連結</button>
+                    <button id="modal-close-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none">關閉</button>
+                `;
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+
+                const copyBtn = document.getElementById('modal-copy-btn');
+                const closeBtn = document.getElementById('modal-close-btn');
+                const linkInput = document.getElementById('approval-link');
+
+                copyBtn.onclick = () => {
+                    linkInput.select();
+                    document.execCommand('copy');
+                    copyBtn.textContent = '已複製！';
+                    setTimeout(() => { copyBtn.textContent = '複製連結'; }, 2000);
+                };
+                closeBtn.onclick = hideModal;
+            }
+
+            function showConfirm(message, callback, title = '確認操作') {
+                modalTitle.textContent = title;
+                modalContent.innerHTML = `<p>${message}</p>`;
+                modalButtons.innerHTML = `
+                    <button id="modal-cancel-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none">取消</button>
+                    <button id="modal-confirm-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none">確定</button>
+                `;
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                const confirmBtn = document.getElementById('modal-confirm-btn');
+                const cancelBtn = document.getElementById('modal-cancel-btn');
+                confirmBtn.onclick = () => { hideModal(); if (callback) callback(true); };
+                cancelBtn.onclick = () => { hideModal(); if (callback) callback(false); };
+                confirmBtn.focus();
+            }
+            function promptLogin() {
+                modalTitle.textContent = '管理員登入';
+                modalContent.innerHTML = `<div class="space-y-4"><div><label for="modal-username" class="block text-sm font-medium text-gray-700 text-left">帳號</label><input type="text" id="modal-username" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div><label for="modal-password" class="block text-sm font-medium text-gray-700 text-left">密碼</label><input type="password" id="modal-password" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><p id="modal-error" class="text-sm text-red-600 h-4"></p></div>`;
+                modalButtons.innerHTML = `<button id="modal-cancel-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none">取消</button><button id="modal-login-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none">登入</button>`;
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                const loginBtn = document.getElementById('modal-login-btn'), cancelBtn = document.getElementById('modal-cancel-btn'), usernameInput = document.getElementById('modal-username'), passwordInput = document.getElementById('modal-password'), errorEl = document.getElementById('modal-error');
+                usernameInput.focus();
+                const handleLogin = () => {
+                    if (usernameInput.value === 'admin' && passwordInput.value === 'cch2500') {
+                        hideModal(); state.isLoggedIn = true; showAlert('登入成功！'); updateUI(); setActiveTab('admin');
+                    } else {
+                        errorEl.textContent = '帳號或密碼錯誤！'; const modalBox = modal.querySelector('div'); modalBox.classList.add('animate-shake'); setTimeout(() => { modalBox.classList.remove('animate-shake'); }, 500);
+                    }
+                };
+                loginBtn.onclick = handleLogin;
+                passwordInput.onkeydown = (e) => { if (e.key === 'Enter') handleLogin(); };
+                usernameInput.onkeydown = (e) => { if (e.key === 'Enter') passwordInput.focus(); };
+                cancelBtn.onclick = hideModal;
+            }
+
+            function promptManagerAction(callback) {
+                modalTitle.textContent = '主管簽核';
+                modalContent.innerHTML = `
+                    <p class="mb-4">請輸入您的姓名並提供備註 (非必填)。</p>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="modal-manager-name" class="block text-sm font-medium text-gray-700 text-left">主管姓名</label>
+                            <input type="text" id="modal-manager-name" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label for="modal-manager-remarks" class="block text-sm font-medium text-gray-700 text-left">備註</label>
+                            <textarea id="modal-manager-remarks" rows="3" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="若退回申請，請說明原因..."></textarea>
+                        </div>
+                        <p id="modal-error" class="text-sm text-red-600 h-4 mt-1"></p>
+                    </div>`;
+                modalButtons.innerHTML = `
+                    <button id="modal-cancel-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none">取消</button>
+                    <button id="modal-reject-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-yellow-600 text-base font-medium text-white hover:bg-yellow-700 focus:outline-none">退回申請</button>
+                    <button id
