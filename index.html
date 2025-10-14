@@ -76,7 +76,7 @@
         <!-- Header -->
         <header class="flex justify-between items-center mb-6">
             <div class="flex items-center gap-4">
-                <img src="chi_mei_hospital_Chiali_blue.png" alt="奇美醫院 Logo" class="h-12 sm:h-16">
+                <img src="chimei.png" alt="奇美醫院 Logo" class="h-12 sm:h-16">
                 <h1 class="text-xl sm:text-3xl font-bold text-gray-800">派車申請系統</h1>
             </div>
         </header>
@@ -817,81 +817,49 @@
             }
 
             async function initFirebase() {
-        try {
-            let firebaseConfig;
-            
-            // 優先使用 Canvas 提供的全域配置
-            if (typeof __firebase_config !== 'undefined') {
-                firebaseConfig = JSON.parse(__firebase_config);
-            } else {
-                // 如果全域配置不存在，則使用您提供的硬編碼配置作為備用
-                firebaseConfig = {
-                    apiKey: "AIzaSyAs3v-BU5Hfh7HZitHdL5yI2FKZrI_Q4zI",
-                    authDomain: "cch2500-5bbb6.firebaseapp.com",
-                    projectId: "cch2500-5bbb6",
-                    storageBucket: "cch2500-5bbb6.firebasestorage.app",
-                    messagingSenderId: "223711217941",
-                    appId: "1:223711217941:web:f14461ad89c0f9ca01c11c",
-                    measurementId: "G-59DEQT7HT0"
-                };
-            }
-
-            if (!firebaseConfig.apiKey) {
-                showAlert('Firebase 設定不正確，因此無法連接到雲端資料庫。', '資料庫連線失敗');
-                console.error("Firebase config is missing or invalid.");
-                searchBtn.disabled = true; searchInput.disabled = true;
-                return;
-            }
-
-            const app = initializeApp(firebaseConfig);
-            state.db = getFirestore(app);
-            state.auth = getAuth(app);
-            setLogLevel('debug'); // 設置日誌級別為 debug
-
-            let isAuthReady = false;
-
-            onAuthStateChanged(state.auth, (user) => {
-                if (user) { 
-                    state.userId = user.uid;
-                    state.isLoggedIn = true;
-                    console.log("Authenticated successfully. User UID:", user.uid); 
-                    // 確保只在首次或登入後執行一次資料監聽
-                    if (!isAuthReady) {
-                        listenForRequests(); 
-                        isAuthReady = true;
+                try {
+                    const firebaseConfig = {
+                        apiKey: "AIzaSyAs3v-BU5Hfh7HZitHdL5yI2FKZrI_Q4zI",
+                        authDomain: "cch2500-5bbb6.firebaseapp.com",
+                        projectId: "cch2500-5bbb68",
+                        storageBucket: "cch2500-5bbb6.appspot.com",
+                        messagingSenderId: "223711217941",
+                        appId: "1:223711217941:web:f14461ad89c0f9ca01c11c",
+                        measurementId: "G-59DEQT7HT0"
+                    };
+                    
+                    if (!firebaseConfig.apiKey) {
+                        showAlert('Firebase 設定不正確，因此無法連接到雲端資料庫。', '資料庫連線失敗');
+                        console.error("Firebase config is missing or invalid.");
+                        submitBtn.disabled = true; submitBtn.textContent = '資料庫未連接'; submitBtn.classList.add('cursor-not-allowed', 'bg-gray-400', 'hover:bg-gray-400'); submitBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                        searchBtn.disabled = true; searchInput.disabled = true; searchInput.placeholder = '資料庫未連接';
+                        const adminTabBtn = document.querySelector('button[data-tab="admin"]'); if (adminTabBtn) adminTabBtn.disabled = true;
+                        if (statsTabBtn) statsTabBtn.disabled = true; 
+                        return;
                     }
-                } else { 
-                    state.userId = null;
-                    state.isLoggedIn = false;
-                    console.log("User is not authenticated."); 
-                    // 如果沒有使用者，也需要更新 UI 狀態
-                    updateUI();
+
+                    const app = initializeApp(firebaseConfig);
+                    state.db = getFirestore(app);
+                    state.auth = getAuth(app);
+                    setLogLevel('debug');
+
+                    onAuthStateChanged(state.auth, (user) => {
+                        if (user) { 
+                            console.log("Authenticated successfully. User UID:", user.uid); 
+                            listenForRequests(); 
+                        } 
+                        else { 
+                            console.log("User is not authenticated."); 
+                        }
+                    });
+
+                    await signInAnonymously(state.auth); 
+
+                } catch (error) {
+                    console.error("Firebase Initialization Error:", error);
+                    showAlert('系統初始化失敗，請重新整理頁面。', '嚴重錯誤');
                 }
-            });
-
-            // 處理身份驗證
-            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                // 使用 Canvas 提供的自定義 Token 登入
-                await signInWithCustomToken(state.auth, __initial_auth_token);
-                console.log("Signed in with Custom Token.");
-            } else {
-                // 否則，使用匿名登入
-                await signInAnonymously(state.auth);
-                console.log("Signed in anonymously.");
             }
-
-        } catch (error) {
-            console.error("Firebase Initialization Error:", error);
-            showAlert('系統初始化失敗，請檢查控制台錯誤訊息。', '嚴重錯誤');
-        }
-    }
-
-    // --- 應用程式啟動 ---
-    window.onload = () => {
-        handleUrlParams(); // 優先處理 URL 參數
-        initFirebase(); // 初始化 Firebase
-        setActiveTab('search'); // 設置初始頁籤
-    };
 
 
             // --- EVENT LISTENERS ---
