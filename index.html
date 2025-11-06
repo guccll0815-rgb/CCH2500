@@ -569,46 +569,77 @@
 
             function renderAdminList() {
                 const query = adminSearchInput.value.trim().toLowerCase();
-                const requestsToRender = query
-                    ? state.requests.filter(req => req.requestId?.toLowerCase().includes(query))
-                    : state.requests;
-
+                // 依據建立時間倒序排列 (最新的申請在最前面)
+                const requestsToRender = state.requests
+                    .sort((a, b) => (b.createdAt?.toDate() || new Date(0)) - (a.createdAt?.toDate() || new Date(0)))
+                    .filter(req => 
+                        !query || 
+                        req.requestId?.toLowerCase().includes(query) || 
+                        req.applicantName?.toLowerCase().includes(query) ||
+                        req.applicantUnit?.toLowerCase().includes(query)
+                    );
+                
                 requestsList.innerHTML = '';
-                if(requestsToRender.length === 0) { 
-                    requestsList.innerHTML = `<p class="text-center text-gray-500">${query ? '找不到符合條件的申請。' : '目前沒有任何申請記錄。'}</p>`; 
-                    return; 
+                if(requestsToRender.length === 0) {
+                    requestsList.innerHTML = `<p class="text-center text-gray-500">${query ? '找不到符合條件的申請。' : '目前沒有任何申請記錄。'}</p>`;
+                    return;
                 }
                 
                 requestsToRender.forEach(req => {
                     const card = document.createElement('div');
                     card.className = 'request-card p-4 border rounded-lg flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3';
-                    const createdAt = req.createdAt?.toDate() ? req.createdAt.toDate().toLocaleString('zh-TW', { hour12: false }).slice(0, 16) : 'N/A';
+                    
+                    // 【★ 修改點一：格式化預定派車時間 (起) ★】
+                    // 將 "YYYY-MM-DDTHH:mm" 轉換為 "YYYY/MM/DD HH:mm"
+                    const formattedStartTime = req.startTime ? req.startTime.replace('T', ' ').replace(/-/g, '/') : 'N/A';
                     
                     let buttonsHTML = '';
+                    // 允許主管進行簽核
                     if (req.dispatchStatus === '待申請單位主管簽核') {
                         buttonsHTML += `<button class="text-sm text-green-600 hover:text-green-800 font-medium approve-btn">主管簽核</button>`;
-                    }
-                    buttonsHTML += `<button class="text-sm text-blue-600 hover:text-blue-800 font-medium edit-btn">檢視/編輯</button>`;
-                    buttonsHTML += `<button class="text-sm text-red-600 hover:text-red-800 font-medium delete-btn">刪除</button>`;
-
-                    card.innerHTML = `<div class="flex-grow">
-                        <p class="font-semibold text-gray-800">${req.applicantUnit || 'N/A'} - ${req.applicantName || 'N/A'}</p>
-                        <p class="text-xs text-gray-400">單號: ${req.requestId || 'N/A'}</p>
-                        <p class="text-sm text-gray-500">申請時間: ${createdAt}</p>
-                    </div><div class="flex items-center flex-shrink-0 gap-4">${buttonsHTML} <span class="status-badge ${getStatusBadgeClass(req.dispatchStatus)}">${req.dispatchStatus}</span></div>`;
+                    } 
                     
+                    // 允許管理員進行檢視/編輯/刪除
+                    if (state.isLoggedIn) {
+                         buttonsHTML += `<button class="text-sm text-blue-600 hover:text-blue-800 font-medium edit-btn">檢視/編輯</button>`;
+                         buttonsHTML += `<button class="text-sm text-red-600 hover:text-red-800 font-medium delete-btn">刪除</button>`;
+                    }
+
+                    card.innerHTML = `
+                        <div class="flex-grow">
+                            <p class="font-semibold text-gray-800">${req.applicantUnit || 'N/A'} - ${req.applicantName || 'N/A'}</p>
+                            <p class="text-xs text-gray-400">單號: ${req.requestId || 'N/A'}</p>
+                            
+                            <p class="text-sm text-gray-500">預定派車時間 (起): ${formattedStartTime}</p>
+                        </div>
+                        <div class="flex items-center flex-shrink-0 gap-4">
+                            ${buttonsHTML}
+                            <span class="status-badge ${getStatusBadgeClass(req.dispatchStatus)}">${req.dispatchStatus}</span>
+                        </div>
+                    `;
+
                     const approveBtn = card.querySelector('.approve-btn');
                     if (approveBtn) {
-                        approveBtn.addEventListener('click', (e) => { e.stopPropagation(); handleManagerAction(req.id); });
+                        approveBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            handleManagerAction(req.id);
+                        });
                     }
                     
-                    card.querySelector('.edit-btn').addEventListener('click', () => { loadRequestIntoForm(req.id); setActiveTab('apply'); });
-                    card.querySelector('.delete-btn').addEventListener('click', (e) => { 
-                        e.stopPropagation(); 
-                        showConfirm(`確定要刪除由 ${req.applicantName} 提出的申請嗎？`, confirmed => {
-                            if (confirmed) deleteRequest(req.id);
-                        }); 
-                    });
+                    // 確保只有登入後才會有這些按鈕的事件監聽
+                    if (state.isLoggedIn) {
+                        card.querySelector('.edit-btn').addEventListener('click', () => {
+                            loadRequestIntoForm(req.id);
+                            setActiveTab('apply');
+                        });
+                        card.querySelector('.delete-btn').addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            showConfirm(`確定要刪除由 ${req.applicantName} 提出的申請嗎？`, confirmed => {
+                                if (confirmed) deleteRequest(req.id);
+                            });
+                        });
+                    }
+                    
                     requestsList.appendChild(card);
                 });
             }
