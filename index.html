@@ -207,11 +207,15 @@
                                 </svg>
                             </button>
                         </div>
-                        <div class="flex items-center space-x-2">
-                             <input type="text" id="admin-search-input" placeholder="依申請單號查詢..." class="w-full sm:w-auto px-4 py-2 bg-white border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                        <button id="logout-btn" class="hidden py-2 px-4 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">登出</button>
-                     </div>
+    <div class="flex items-center space-x-2 flex-wrap sm:flex-nowrap">
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+            <label for="admin-month-filter" class="text-sm font-medium text-gray-700 whitespace-nowrap">篩選月份:</label>
+            <input type="month" id="admin-month-filter" class="border-gray-300 rounded-md shadow-sm p-2 w-full">
+        </div>
+         <input type="text" id="admin-search-input" placeholder="依申請單號查詢..." class="w-full sm:w-auto px-4 py-2 bg-white border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+    </div>
+    <button id="logout-btn" class="hidden py-2 px-4 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">登出</button>
+</div>
                      <div id="requests-list" class="space-y-4">
                          <!-- Requests will be injected here by Firestore -->
                      </div>
@@ -312,7 +316,7 @@
             const searchResults = document.getElementById('search-results');
             const adminSearchInput = document.getElementById('admin-search-input');
             const refreshAdminListBtn = document.getElementById('refresh-admin-list-btn');
-
+            const adminMonthFilter = document.getElementById('admin-month-filter');
             const statsTabBtn = document.querySelector('button[data-tab="stats"]');
             const statsView = document.getElementById('stats-view');
             const statsLoginPrompt = document.getElementById('stats-login-prompt');
@@ -461,7 +465,16 @@
                 state.activeTab = tabName;
                 tabButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tabName));
                 tabContents.forEach(content => content.classList.toggle('hidden', content.id !== `tab-content-${tabName}`));
-                if (tabName === 'admin') updateAdminTabVisibility();
+                if (tabName === 'admin') { // ⬇️ 修改此區塊 ⬇️
+                    if (!adminMonthFilter.value) { 
+                          const now = new Date();
+                          const year = now.getFullYear();
+                          const month = (now.getMonth() + 1).toString().padStart(2, '0');
+                          adminMonthFilter.value = `${year}-${month}`;
+                    } 
+                    updateAdminTabVisibility();
+                    renderAdminList(); // 確保套用篩選後渲染列表
+                } //
                 if (tabName === 'stats') { 
                     if (!statsMonthFilter.value) {
                           const now = new Date();
@@ -571,16 +584,37 @@
 
             function renderAdminList() {
                 const query = adminSearchInput.value.trim().toLowerCase();
-                // 依據建立時間倒序排列 (最新的申請在最前面)
-                const requestsToRender = state.requests
-                    .sort((a, b) => (b.createdAt?.toDate() || new Date(0)) - (a.createdAt?.toDate() || new Date(0)))
-                    .filter(req => 
-                        !query || 
+                const monthFilterValue = adminMonthFilter.value; // ⬇️ 新增獲取月份值 ⬇️
+                
+                // 1. 篩選 (Filter)
+                const requestsToFilter = state.requests.filter(req => {
+                    // 月份篩選邏輯 (Month Filter Logic)
+                    if (monthFilterValue) {
+                        // req.startTime 格式為 YYYY-MM-DDTHH:mm
+                        // 檢查 startTime 的前 7 位 (YYYY-MM) 是否等於篩選值
+                        if (!req.startTime || req.startTime.substring(0, 7) !== monthFilterValue) {
+                            return false;
+                        }
+                    }
+                    
+                    // 搜尋篩選邏輯 (Search Filter Logic)
+                    return !query || 
                         req.requestId?.toLowerCase().includes(query) || 
                         req.applicantName?.toLowerCase().includes(query) ||
-                        req.applicantUnit?.toLowerCase().includes(query)
-                    );
-                
+                        req.applicantUnit?.toLowerCase().includes(query);
+                }); // ⬆️ 篩選邏輯修改完成 ⬆️
+
+                // 依據建立時間倒序排列 (最新的申請在最前面)
+                const requestsToRender = requestsToFilter
+                    .sort((a, b) => {
+                        // 確保 startTime 存在且是有效的日期格式 (YYYY-MM-DDTHH:mm)
+                        const dateA = a.startTime ? new Date(a.startTime).getTime() : Infinity;
+                        const dateB = b.startTime ? new Date(b.startTime).getTime() : Infinity;
+                        
+                        // 升序排序： dateA - dateB (時間越早，數值越小，排越前面)
+                        return dateA - dateB;
+                    });
+                                   
                 requestsList.innerHTML = '';
                 if(requestsToRender.length === 0) {
                     requestsList.innerHTML = `<p class="text-center text-gray-500">${query ? '找不到符合條件的申請。' : '目前沒有任何申請記錄。'}</p>`;
@@ -916,7 +950,8 @@
             searchBtn.addEventListener('click', handleSearch);
             searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') handleSearch(); });
             adminSearchInput.addEventListener('input', renderAdminList);
-            refreshAdminListBtn.addEventListener('click', () => {
+adminMonthFilter.addEventListener('change', renderAdminList);            
+refreshAdminListBtn.addEventListener('click', () => {
                 const icon = refreshAdminListBtn.querySelector('svg');
                 if (icon) {
                     icon.classList.add('animate-spin');
