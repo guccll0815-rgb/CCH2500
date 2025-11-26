@@ -739,8 +739,9 @@
                 
                 const driverCtx = document.getElementById('driver-chart').getContext('2d');
                 const driverTrips = filteredRequests
-                    .filter(r => r.dispatchStatus === '已派車' && r.driverName)
-                    .reduce((acc, req) => { acc[req.driverName] = (acc[req.driverName] || 0) + 1; return acc; }, {});
+    // 修正統計邏輯：只計算「已派車」或「派車結案」且「司機姓名」欄位有值的紀錄
+    .filter(r => (r.dispatchStatus === '已派車' || r.dispatchStatus === '派車結案') && r.driverName)
+    .reduce((acc, req) => { acc[req.driverName] = (acc[req.driverName] || 0) + 1; return acc; }, {});
                 const sortedDrivers = Object.entries(driverTrips).sort((a, b) => b[1] - a[1]);
                 if (driverChartInstance) driverChartInstance.destroy();
                 driverChartInstance = new Chart(driverCtx, {
@@ -839,7 +840,6 @@
                 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
-
             async function deleteRequest(id) {
                 if (!id || !state.db) return;
                 const docRef = doc(state.db, 'requests', id);
@@ -852,8 +852,7 @@
                     showAlert('刪除失敗，請稍後再試。', '錯誤');
                 }
             }
-            
-            // --- FIRESTORE & INITIALIZATION ---
+                      // --- FIRESTORE & INITIALIZATION ---
             function listenForRequests() {
                 if (!state.db) return;
                 const requestsColRef = collection(state.db, 'requests');
@@ -875,7 +874,6 @@
                         window.history.replaceState({}, '', url);
                         state.deepLinkedRequestId = null;
                     }
-
                     updateUI();
                     if(state.activeTab === 'search') { handleSearch(); }
                     if(state.activeTab === 'stats' && state.isLoggedIn) { renderStatistics(); }
@@ -884,7 +882,6 @@
                     showAlert('無法讀取資料庫，請檢查網路連線或重新整理頁面。', '錯誤');
                 });
             }
-
             function handleUrlParams() {
                 const urlParams = new URLSearchParams(window.location.search);
                 const requestId = urlParams.get('requestId');
@@ -892,7 +889,6 @@
                     state.deepLinkedRequestId = requestId;
                 }
             }
-
             async function initFirebase() {
                 try {
                     const firebaseConfig = {
@@ -903,8 +899,7 @@
   messagingSenderId: "223711217941",
   appId: "1:223711217941:web:f14461ad89c0f9ca01c11c",
   measurementId: "G-59DEQT7HT0"
-};
-                    
+};                    
                     if (!firebaseConfig.apiKey) {
                         showAlert('Firebase 設定不正確，因此無法連接到雲端資料庫。', '資料庫連線失敗');
                         console.error("Firebase config is missing or invalid.");
@@ -914,12 +909,10 @@
                         if (statsTabBtn) statsTabBtn.disabled = true; 
                         return;
                     }
-
                     const app = initializeApp(firebaseConfig);
                     state.db = getFirestore(app);
                     state.auth = getAuth(app);
                     setLogLevel('debug');
-
                     onAuthStateChanged(state.auth, (user) => {
                         if (user) { 
                             console.log("Authenticated successfully. User UID:", user.uid); 
@@ -929,16 +922,12 @@
                             console.log("User is not authenticated."); 
                         }
                     });
-
                     await signInAnonymously(state.auth); 
-
                 } catch (error) {
                     console.error("Firebase Initialization Error:", error);
                     showAlert('系統初始化失敗，請重新整理頁面。', '嚴重錯誤');
                 }
             }
-
-
             // --- EVENT LISTENERS ---
             logoutBtn.addEventListener('click', logout);
             adminLoginPromptBtn.addEventListener('click', promptLogin);
@@ -963,8 +952,6 @@ refreshAdminListBtn.addEventListener('click', () => {
                     }
                 }, 700);
             });
-
-
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const applicantName = document.getElementById('applicant_name').value;
