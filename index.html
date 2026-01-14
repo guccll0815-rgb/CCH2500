@@ -478,6 +478,7 @@
                 if (tabName === 'stats') { 
                     if (!statsMonthFilter.value) {
                           const now = new Date();
+                          const searchTerm = searchInput.value.trim();
                           const year = now.getFullYear();
                           const month = (now.getMonth() + 1).toString().padStart(2, '0');
                           statsMonthFilter.value = `${year}-${month}`;
@@ -614,7 +615,56 @@
                         // 升序排序： dateA - dateB (時間越早，數值越小，排越前面)
                         return dateA - dateB;
                     });
-                                   
+                 function renderAdminList() {
+    if (!requestsList) return;
+
+    // 取得篩選值
+    const monthFilter = adminMonthFilter.value;
+    const searchFilter = adminSearchInput.value.trim().toLowerCase();
+
+    // 篩選邏輯
+    const filteredRequests = state.requests.filter(req => {
+        const matchesMonth = !monthFilter || (req.startTime && req.startTime.startsWith(monthFilter));
+        const matchesSearch = !searchFilter || (req.id && req.id.toLowerCase().includes(searchFilter));
+        return matchesMonth && matchesSearch;
+    });
+
+    if (filteredRequests.length === 0) {
+        requestsList.innerHTML = '<p class="text-center text-gray-500 py-10">找不到符合條件的申請記錄。</p>';
+        return;
+    }
+
+    requestsList.innerHTML = filteredRequests.map(req => `
+        <div class="request-card bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+            <div class="flex flex-col sm:flex-row justify-between items-start mb-4 gap-2">
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-xs font-mono text-gray-400">ID: ${req.id.substring(0, 8)}...</span>
+                        <span class="status-badge ${getStatusBadgeClass(req.dispatchStatus)}">${req.dispatchStatus}</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-gray-800">${req.applicantName} - ${req.reason}</h3>
+                </div>
+                <button onclick="editRequest('${req.id}')" class="text-blue-600 hover:text-blue-800 font-medium text-sm">編輯處理</button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                <div class="flex items-center text-gray-600">
+                    <span class="font-medium mr-2">用車時間:</span> ${req.startTime}
+                </div>
+                <div class="flex items-center text-gray-600">
+                    <span class="font-medium mr-2 text-blue-700">駛達地點:</span> 
+                    <span class="text-blue-800 font-semibold">${req.destination || '未填寫'}</span>
+                </div>
+                <div class="flex items-center text-gray-600">
+                    <span class="font-medium mr-2">申請單位:</span> ${req.applicantUnit}
+                </div>
+                <div class="flex items-center text-gray-600">
+                    <span class="font-medium mr-2">搭乘人數:</span> ${req.passengers}
+                </div>
+            </div>
+        </div>
+    `).join('');
+}                  
                 requestsList.innerHTML = '';
                 if(requestsToRender.length === 0) {
                     requestsList.innerHTML = `<p class="text-center text-gray-500">${query ? '找不到符合條件的申請。' : '目前沒有任何申請記錄。'}</p>`;
@@ -647,6 +697,7 @@
                             <p class="text-xs text-gray-400">單號: ${req.requestId || 'N/A'}</p>
                             
                             <p class="text-sm text-gray-500">預定派車時間 (起): ${formattedStartTime}</p>
+                            <p class="text-sm text-gray-500">駛達地點: ${req.destination|| '未填寫'}</p>
                         </div>
                         <div class="flex items-center flex-shrink-0 gap-4">
                             ${buttonsHTML}
@@ -739,9 +790,9 @@
                 
                 const driverCtx = document.getElementById('driver-chart').getContext('2d');
                 const driverTrips = filteredRequests
-    // 修正統計邏輯：只計算「已派車」或「派車結案」且「司機姓名」欄位有值的紀錄
-    .filter(r => (r.dispatchStatus === '已派車' || r.dispatchStatus === '派車結案') && r.driverName)
-    .reduce((acc, req) => { acc[req.driverName] = (acc[req.driverName] || 0) + 1; return acc; }, {});
+            // 修正統計邏輯：只計算「已派車」或「派車結案」且「司機姓名」欄位有值的紀錄
+           .filter(r => (r.dispatchStatus === '已派車' || r.dispatchStatus === '派車結案') && r.driverName)
+           .reduce((acc, req) => { acc[req.driverName] = (acc[req.driverName] || 0) + 1; return acc; }, {});
                 const sortedDrivers = Object.entries(driverTrips).sort((a, b) => b[1] - a[1]);
                 if (driverChartInstance) driverChartInstance.destroy();
                 driverChartInstance = new Chart(driverCtx, {
@@ -840,6 +891,7 @@
                 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
+
             async function deleteRequest(id) {
                 if (!id || !state.db) return;
                 const docRef = doc(state.db, 'requests', id);
@@ -852,7 +904,8 @@
                     showAlert('刪除失敗，請稍後再試。', '錯誤');
                 }
             }
-                      // --- FIRESTORE & INITIALIZATION ---
+            
+            // --- FIRESTORE & INITIALIZATION ---
             function listenForRequests() {
                 if (!state.db) return;
                 const requestsColRef = collection(state.db, 'requests');
@@ -874,6 +927,7 @@
                         window.history.replaceState({}, '', url);
                         state.deepLinkedRequestId = null;
                     }
+
                     updateUI();
                     if(state.activeTab === 'search') { handleSearch(); }
                     if(state.activeTab === 'stats' && state.isLoggedIn) { renderStatistics(); }
@@ -882,6 +936,7 @@
                     showAlert('無法讀取資料庫，請檢查網路連線或重新整理頁面。', '錯誤');
                 });
             }
+
             function handleUrlParams() {
                 const urlParams = new URLSearchParams(window.location.search);
                 const requestId = urlParams.get('requestId');
@@ -889,6 +944,7 @@
                     state.deepLinkedRequestId = requestId;
                 }
             }
+
             async function initFirebase() {
                 try {
                     const firebaseConfig = {
@@ -899,7 +955,8 @@
   messagingSenderId: "223711217941",
   appId: "1:223711217941:web:f14461ad89c0f9ca01c11c",
   measurementId: "G-59DEQT7HT0"
-};                    
+};
+                    
                     if (!firebaseConfig.apiKey) {
                         showAlert('Firebase 設定不正確，因此無法連接到雲端資料庫。', '資料庫連線失敗');
                         console.error("Firebase config is missing or invalid.");
@@ -909,10 +966,12 @@
                         if (statsTabBtn) statsTabBtn.disabled = true; 
                         return;
                     }
+
                     const app = initializeApp(firebaseConfig);
                     state.db = getFirestore(app);
                     state.auth = getAuth(app);
                     setLogLevel('debug');
+
                     onAuthStateChanged(state.auth, (user) => {
                         if (user) { 
                             console.log("Authenticated successfully. User UID:", user.uid); 
@@ -922,12 +981,16 @@
                             console.log("User is not authenticated."); 
                         }
                     });
+
                     await signInAnonymously(state.auth); 
+
                 } catch (error) {
                     console.error("Firebase Initialization Error:", error);
                     showAlert('系統初始化失敗，請重新整理頁面。', '嚴重錯誤');
                 }
             }
+
+
             // --- EVENT LISTENERS ---
             logoutBtn.addEventListener('click', logout);
             adminLoginPromptBtn.addEventListener('click', promptLogin);
@@ -939,8 +1002,8 @@
             searchBtn.addEventListener('click', handleSearch);
             searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') handleSearch(); });
             adminSearchInput.addEventListener('input', renderAdminList);
-adminMonthFilter.addEventListener('change', renderAdminList);            
-refreshAdminListBtn.addEventListener('click', () => {
+            adminMonthFilter.addEventListener('change', renderAdminList);            
+            refreshAdminListBtn.addEventListener('click', () => {
                 const icon = refreshAdminListBtn.querySelector('svg');
                 if (icon) {
                     icon.classList.add('animate-spin');
@@ -952,6 +1015,8 @@ refreshAdminListBtn.addEventListener('click', () => {
                     }
                 }, 700);
             });
+
+
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const applicantName = document.getElementById('applicant_name').value;
@@ -994,10 +1059,10 @@ refreshAdminListBtn.addEventListener('click', () => {
                             requestId: newRequestId,
                             branch: Array.from(document.querySelectorAll('input[name="branch"]:checked')).map(cb => cb.value), 
                             reason: document.getElementById('reason').value, 
-                            vehicleType: document.querySelector('input[name="vehicle_type"]:checked')?.value || null, 
-                            destination: document.getElementById('destination').value, 
-                            passengers: document.getElementById('passengers').value, 
-                            startTime: document.getElementById('start_time').value, 
+                            vehicleType:document.querySelector('input[name="vehicle_type"]:checked')?.value || null, 
+                            destination:document.getElementById('destination').value, 
+                            passengers:document.getElementById('passengers').value, 
+                            startTime:document.getElementById('start_time').value, 
                             endTime: document.getElementById('end_time').value, 
                             applicantUnit: document.getElementById('applicant_unit').value, 
                             costCode: document.getElementById('cost_code').value, 
