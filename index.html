@@ -190,6 +190,10 @@
                                 <input type="month" id="admin-month-filter" class="border-gray-300 rounded-md shadow-sm p-2 w-full">
                             </div>
                             <input type="text" id="admin-search-input" placeholder="依申請單號查詢..." class="w-full sm:w-auto px-4 py-2 bg-white border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            <label class="flex items-center gap-2 text-sm font-medium text-gray-700 whitespace-nowrap cursor-pointer">
+                                <input type="checkbox" id="show-completed-toggle" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                <span>顯示已結案</span>
+                            </label>
                         </div>
                         <button id="logout-btn" class="hidden py-2 px-4 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">登出</button>
                     </div>
@@ -306,6 +310,7 @@
             const adminSearchInput = document.getElementById('admin-search-input');
             const refreshAdminListBtn = document.getElementById('refresh-admin-list-btn');
             const adminMonthFilter = document.getElementById('admin-month-filter');
+            const showCompletedToggle = document.getElementById('show-completed-toggle');
             const statsTabBtn = document.querySelector('button[data-tab="stats"]');
             const statsView = document.getElementById('stats-view');
             const statsLoginPrompt = document.getElementById('stats-login-prompt');
@@ -629,6 +634,11 @@
                 
                 // 1. 篩選 (Filter)
                 const requestsToFilter = state.requests.filter(req => {
+                    // 派車結案的單子預設不顯示於明細表，避免筆數過多混淆
+                    // 勾選「顯示已結案」後才會將這些單子納入顯示
+                    if (!showCompletedToggle.checked && req.dispatchStatus === '派車結案') {
+                        return false;
+                    }
                     // 月份篩選邏輯
                     if (monthFilterValue) {
                         if (!req.startTime || req.startTime.substring(0, 7) !== monthFilterValue) {
@@ -1082,6 +1092,7 @@
             searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') handleSearch(); });
             adminSearchInput.addEventListener('input', renderAdminList);
             adminMonthFilter.addEventListener('change', renderAdminList);
+            showCompletedToggle.addEventListener('change', renderAdminList);
             
             refreshAdminListBtn.addEventListener('click', () => {
                 const icon = refreshAdminListBtn.querySelector('svg');
