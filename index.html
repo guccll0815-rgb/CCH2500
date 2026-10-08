@@ -633,12 +633,14 @@
                 const monthFilterValue = adminMonthFilter.value;
                 
                 // 1. 篩選 (Filter)
-                const requestsToFilter = state.requests.filter(req => {
-                    // 派車結案的單子預設不顯示於明細表，避免筆數過多混淆
-                    // 勾選「顯示已結案」後才會將這些單子納入顯示
-                    if (!showCompletedToggle.checked && req.dispatchStatus === '派車結案') {
-                        return false;
-                    }
+const requestsToFilter = state.requests.filter(req => {
+    // 派車結案、案件取消的單子預設不顯示於明細表，避免筆數過多混淆
+    // 勾選「顯示已結案／已取消」後才會將這些單子納入顯示
+    const isClosedOrCancelled =
+        req.dispatchStatus === '派車結案' || req.dispatchStatus === '案件取消';
+    if (!showCompletedToggle.checked && isClosedOrCancelled) {
+        return false;
+    }
                     // 月份篩選邏輯
                     if (monthFilterValue) {
                         if (!req.startTime || req.startTime.substring(0, 7) !== monthFilterValue) {
